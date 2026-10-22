@@ -1,0 +1,15 @@
+<div class="ec-offline-bar" data-controller="network-status" role="status">
+  <i class="bi bi-wifi-off"></i> <%= t("pwa.offline") %>
+</div>
+
+<div data-controller="pwa-install">
+  <div class="ec-install-banner" data-pwa-install-target="banner" role="dialog" aria-label="<%= t('pwa.install.title') %>">
+    <img src="/icon-192.png" alt="" width="44" height="44" class="ec-install-icon">
+    <div class="min-w-0 flex-grow-1">
+      <strong><%= t("pwa.install.title") %></strong>
+      <small class="d-block text-muted"><%= t("pwa.install.text") %></small>
+    </div>
+    <button type="button" class="btn btn-primary btn-sm" data-action="click->pwa-install#install"><%= t("pwa.install.button") %></button>
+    <button type="button" class="ec-install-close" aria-label="<%= t('pwa.install.dismiss') %>" data-action="click->pwa-install#dismiss"><i class="bi bi-x-lg"></i></button>
+  </div>
+</div>

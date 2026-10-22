@@ -1,0 +1,12 @@
+<%# Aviso de cookies (LGPD) para o Google Analytics. Aparece uma vez por navegador, até a escolha. %>
+<div class="ec-cookie-banner" data-controller="cookie-consent" role="dialog" aria-live="polite" aria-label="<%= t("cookies.title") %>" hidden>
+  <i class="bi bi-shield-check ec-cookie-icon"></i>
+  <div class="min-w-0 flex-grow-1">
+    <strong><%= t("cookies.title") %></strong>
+    <small class="d-block text-muted"><%= t("cookies.text_html", url: privacy_path) %></small>
+  </div>
+  <div class="ec-cookie-actions">
+    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="cookie-consent#decline"><%= t("cookies.decline") %></button>
+    <button type="button" class="btn btn-primary btn-sm" data-action="cookie-consent#accept"><%= t("cookies.accept") %></button>
+  </div>
+</div>

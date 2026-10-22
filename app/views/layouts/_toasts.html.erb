@@ -1,0 +1,36 @@
+<% if flash.any? %>
+  <div class="ec-toast-container" data-controller="toasts">
+    <% flash.each do |type, message| %>
+      <% next if message.blank? %>
+      <% if type.to_s == "level_up" %>
+        <%# Novo nível: toast especial, fica mais tempo e solta confete (celebrate). %>
+        <div class="ec-toast ec-toast-level-up" role="alert" data-toasts-target="toast" data-duration="8000" data-controller="celebrate">
+          <div class="ec-toast-icon"><i class="bi bi-stars"></i></div>
+          <div class="ec-toast-body">
+            <strong><%= t("gamification.level_up_title") %></strong>
+            <%= t("gamification.level_up", level: message["level"], name: message["name"]) %>
+          </div>
+          <button type="button" class="ec-toast-close" aria-label="Fechar" data-action="click->toasts#dismiss">
+            <i class="bi bi-x"></i>
+          </button>
+          <div class="ec-toast-progress"></div>
+        </div>
+        <% next %>
+      <% end %>
+      <% css, icon = case type.to_s
+                     when "notice"  then [ "ec-toast-success", "bi-check-circle-fill" ]
+                     when "alert"   then [ "ec-toast-danger",  "bi-exclamation-triangle-fill" ]
+                     when "warning" then [ "ec-toast-warning", "bi-exclamation-circle-fill" ]
+                     else                 [ "ec-toast-info",    "bi-info-circle-fill" ]
+                     end %>
+      <div class="ec-toast <%= css %>" role="alert" data-toasts-target="toast">
+        <div class="ec-toast-icon"><i class="bi <%= icon %>"></i></div>
+        <div class="ec-toast-body"><%= message %></div>
+        <button type="button" class="ec-toast-close" aria-label="Fechar" data-action="click->toasts#dismiss">
+          <i class="bi bi-x"></i>
+        </button>
+        <div class="ec-toast-progress"></div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

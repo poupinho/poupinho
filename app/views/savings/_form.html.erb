@@ -1,0 +1,64 @@
+<%= form_with model: @saving, class: "ec-form ec-saving-form" do |f| %>
+  <%= hidden_field_tag :return_to, @return_to if @return_to.present? %>
+
+  <% if @saving.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <h3 class="h6 mb-2"><i class="bi bi-exclamation-triangle-fill me-1"></i> <%= pluralize(@saving.errors.count, "erro") %>:</h3>
+      <ul class="mb-0">
+        <% @saving.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="ec-amount-field">
+    <%= f.label :amount, t("savings.form.amount_label") %>
+    <div class="ec-amount-input">
+      <span class="ec-amount-prefix">R$</span>
+      <%= f.text_field :amount, value: brl_input_value(@saving.amount), class: "ec-amount-control", required: true,
+            placeholder: t("savings.form.amount_placeholder"), autocomplete: "off", autofocus: @saving.new_record?,
+            size: 4, data: { controller: "currency-mask" } %>
+    </div>
+  </div>
+
+  <div class="ec-chip-group" data-controller="hscroll" role="radiogroup" aria-label="<%= Saving.human_attribute_name(:category) %>">
+    <% @categories.each do |category| %>
+      <label class="ec-chip" style="--cat-color: <%= category.color %>">
+        <%= f.radio_button :category_id, category.id %>
+        <span class="ec-chip-icon"><i class="bi <%= category.icon %>"></i></span>
+        <span class="ec-chip-label"><%= category.name %></span>
+      </label>
+    <% end %>
+    <label class="ec-chip">
+      <%= f.radio_button :category_id, "" %>
+      <span class="ec-chip-icon"><i class="bi bi-dash-circle"></i></span>
+      <span class="ec-chip-label"><%= t("savings.form.no_category") %></span>
+    </label>
+  </div>
+
+  <div class="ec-fields">
+    <label class="ec-field">
+      <span class="ec-field-label"><%= t("savings.form.description_label") %></span>
+      <%= f.text_field :description, class: "form-control", maxlength: 255,
+            placeholder: t("savings.form.description_placeholder") %>
+    </label>
+    <div class="ec-fields-row">
+      <label class="ec-field">
+        <span class="ec-field-label"><%= Saving.human_attribute_name(:saved_on) %></span>
+        <%= f.date_field :saved_on, class: "form-control", required: true, max: Date.current %>
+      </label>
+      <% if @goals.present? %>
+        <label class="ec-field">
+          <span class="ec-field-label"><%= t("savings.form.goal_label") %></span>
+          <%= f.collection_select :goal_id, @goals, :id, :name, { include_blank: t("savings.form.no_goal") }, class: "form-select" %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="ec-form-actions">
+    <%= f.submit t("savings.form.save"), class: "btn btn-primary btn-lg w-100" %>
+    <%= link_to t("savings.form.cancel"), (@return_to.presence || (@saving.persisted? ? saving_path(@saving) : savings_path)), class: "btn btn-link" %>
+  </div>
+<% end %>

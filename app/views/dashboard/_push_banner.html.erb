@@ -1,0 +1,23 @@
+<%# Convite automático para ativar os lembretes (some quando já ativo, sem suporte ou dispensado por 7 dias). %>
+<% if Notifications::Push.configured? %>
+  <div class="ec-push ec-push-banner" data-controller="push" data-push-mode-value="banner"
+       data-push-public-key-value="<%= ENV["VAPID_PUBLIC_KEY"] %>" data-push-url-value="<%= push_subscription_path %>" hidden>
+    <div class="ec-push-row">
+      <span class="ec-push-icon"><i class="bi bi-bell-fill"></i></span>
+      <div class="ec-push-body">
+        <strong><%= t("dashboards.push_banner.title") %></strong>
+        <span class="ec-push-status" data-push-target="status">
+          <span data-when="off"><%= t("dashboards.push_banner.text") %></span>
+          <span data-when="denied"><i class="bi bi-exclamation-circle text-warning"></i> <%= t("profiles.reminders.status_denied") %></span>
+          <span data-when="error"><i class="bi bi-exclamation-circle text-danger"></i> <%= t("profiles.reminders.status_error") %></span>
+          <span data-when="ios"><%= t("profiles.reminders.status_ios") %></span>
+          <span data-when="on"><i class="bi bi-check-circle-fill text-success"></i> <%= t("profiles.reminders.status_on") %></span>
+          <span data-when="unsupported"></span><span data-when="loading"></span>
+        </span>
+      </div>
+      <button type="button" class="btn btn-primary btn-sm" data-push-target="enable" data-action="push#enable"><%= t("dashboards.push_banner.enable") %></button>
+      <button type="button" class="btn btn-outline-secondary btn-sm" data-push-target="disable" data-action="push#disable" hidden><%= t("profiles.reminders.disable") %></button>
+      <button type="button" class="ec-push-close" aria-label="<%= t("dashboards.push_banner.dismiss") %>" data-action="push#dismiss"><i class="bi bi-x-lg"></i></button>
+    </div>
+  </div>
+<% end %>

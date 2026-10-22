@@ -1,0 +1,20 @@
+lunch:
+  user: one
+  name: Almoço
+  icon: bi-egg-fried
+  color: "#f59e0b"
+  position: 0
+
+transport:
+  user: one
+  name: Transporte
+  icon: bi-bus-front
+  color: "#3b82f6"
+  position: 1
+
+other_user_category:
+  user: two
+  name: Café
+  icon: bi-cup-hot
+  color: "#92400e"
+  position: 0

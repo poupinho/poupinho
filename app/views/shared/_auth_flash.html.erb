@@ -1,0 +1,12 @@
+<% if flash[:alert] %>
+  <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <span><%= flash[:alert] %></span>
+  </div>
+<% end %>
+<% if flash[:notice] %>
+  <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+    <i class="bi bi-check-circle-fill"></i>
+    <span><%= flash[:notice] %></span>
+  </div>
+<% end %>

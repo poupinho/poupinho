@@ -1,0 +1,245 @@
+<% page_title t("dashboards.title") %>
+<% month = Date.current %>
+<% goal = @summary.monthly_goal %>
+<% pct = goal.present? ? [ @summary.goal_progress, 100 ].min : 0 %>
+
+<div class="ec-greeting">
+  <div>
+    <h1>Olá, <%= current_user.first_name %>! 👋</h1>
+    <p><%= t("app.tagline") %></p>
+  </div>
+  <%= render "shared/level_chip", score: @score %>
+</div>
+
+<%= render "dashboard/push_banner" %>
+
+<section class="ec-hero ec-goal-card" aria-label="<%= t('dashboards.hero.total') %>">
+  <% if @summary.all_time_total.positive? %>
+    <button type="button" class="ec-hero-share" data-bs-toggle="modal" data-bs-target="#share-card-modal"
+            title="<%= t("dashboards.share.button") %>" aria-label="<%= t("dashboards.share.button") %>">
+      <i class="bi bi-share-fill"></i><span class="d-none d-md-inline ms-1"><%= t("dashboards.share.button") %></span>
+    </button>
+  <% end %>
+  <div class="ec-hero-total">
+    <div class="ec-hero-label"><%= t("dashboards.hero.total") %></div>
+    <div class="ec-hero-value"><%= format_brl(@summary.all_time_total) %></div>
+    <div class="ec-hero-sub"><%= t("dashboards.hero.year", amount: format_brl(@summary.year_total), year: month.year) %></div>
+  </div>
+
+  <%# No mobile o bloco da meta começa recolhido (só barra + percentual); um toque
+      expande nome, valor, quanto falta e prazo. No desktop fica sempre aberto. %>
+  <div class="ec-hero-goal" data-controller="expand">
+    <% if @featured_goal %>
+      <% row = @featured_goal %>
+      <div class="ec-hero-goal-row ec-hero-goal-head">
+        <span><%= link_to row.goal.name, goals_path, class: "ec-hero-goal-name" %> · <strong><%= format_brl(row.goal.target_amount) %></strong></span>
+        <strong class="d-none d-md-inline"><%= row.progress %>%</strong>
+      </div>
+      <button type="button" class="ec-hero-goal-toggle" data-action="expand#toggle" data-expand-target="button"
+              aria-expanded="false" aria-controls="hero-goal-details" aria-label="<%= t("dashboards.goal.toggle") %>">
+        <span class="ec-hero-progress" role="progressbar" aria-valuenow="<%= row.progress_capped %>" aria-valuemin="0" aria-valuemax="100">
+          <span style="width: <%= row.progress_capped %>%"></span>
+        </span>
+        <strong class="ec-hero-goal-pct d-md-none"><%= row.progress %>%</strong>
+        <i class="bi bi-chevron-down ec-hero-goal-chevron d-md-none"></i>
+      </button>
+      <div class="ec-hero-hint ec-hero-goal-foot" id="hero-goal-details">
+        <span>
+          <% if row.achieved? %>
+            <i class="bi bi-trophy-fill"></i> <%= t("dashboards.goal.reached") %>
+          <% else %>
+            <%= t("dashboards.goal.remaining_hint", amount: format_brl(row.remaining)) %>
+          <% end %>
+        </span>
+        <% if row.goal.deadline %>
+          <span><%= t("goals.deadline", date: l(row.goal.deadline)) %></span>
+        <% end %>
+      </div>
+    <% elsif goal.present? %>
+      <div class="ec-hero-goal-row ec-hero-goal-head">
+        <span><%= t("dashboards.goal.label", month: l(month, format: "%B").downcase) %> <strong><%= format_brl(goal) %></strong></span>
+        <strong class="d-none d-md-inline"><%= @summary.goal_progress %>%</strong>
+      </div>
+      <button type="button" class="ec-hero-goal-toggle" data-action="expand#toggle" data-expand-target="button"
+              aria-expanded="false" aria-controls="hero-goal-details" aria-label="<%= t("dashboards.goal.toggle") %>">
+        <span class="ec-hero-progress" role="progressbar" aria-valuenow="<%= pct %>" aria-valuemin="0" aria-valuemax="100">
+          <span style="width: <%= pct %>%"></span>
+        </span>
+        <strong class="ec-hero-goal-pct d-md-none"><%= @summary.goal_progress %>%</strong>
+        <i class="bi bi-chevron-down ec-hero-goal-chevron d-md-none"></i>
+      </button>
+      <div class="ec-hero-hint ec-hero-goal-foot" id="hero-goal-details">
+        <span>
+          <% if pct >= 100 %>
+            <i class="bi bi-trophy-fill"></i> <%= t("dashboards.goal.reached") %>
+          <% else %>
+            <%= t("dashboards.goal.remaining_hint", amount: format_brl(goal - @summary.month_total)) %>
+          <% end %>
+        </span>
+      </div>
+    <% else %>
+      <div class="ec-hero-goal-row">
+        <span><i class="bi bi-bullseye me-1"></i> <%= t("dashboards.goal.title") %></span>
+      </div>
+      <p class="ec-hero-hint mt-0 mb-3"><%= t("dashboards.goal.none") %></p>
+      <%= link_to new_goal_path, class: "btn btn-light btn-sm" do %>
+        <i class="bi bi-plus-lg"></i> <%= t("dashboards.goal.set") %>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<%= render "dashboard/share_card" if @summary.all_time_total.positive? %>
+
+<div class="ec-section">
+  <h2><%= t("dashboards.summary") %></h2>
+  <%= link_to t("dashboards.recent.see_all"), reports_path %>
+</div>
+
+<div class="ec-tiles">
+  <%= link_to savings_path(month: month.strftime("%Y-%m")), class: "ec-tile ec-kpi-card", style: "--tile-color: #f59e0b" do %>
+    <span class="ec-tile-icon"><i class="bi bi-sun-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("dashboards.kpi.today") %></span>
+      <span class="ec-tile-value"><%= format_brl(@summary.today_total) %></span>
+    </span>
+  <% end %>
+
+  <%= link_to savings_path(month: month.strftime("%Y-%m")), class: "ec-tile ec-kpi-card", style: "--tile-color: #0ba360" do %>
+    <span class="ec-tile-icon"><i class="bi bi-piggy-bank-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("dashboards.kpi.month") %></span>
+      <span class="ec-tile-value"><%= format_brl(@summary.month_total) %></span>
+    </span>
+  <% end %>
+
+  <%= link_to reports_path(year: month.year), class: "ec-tile ec-kpi-card", style: "--tile-color: #0d9488" do %>
+    <span class="ec-tile-icon"><i class="bi bi-calendar3"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("dashboards.kpi.year") %></span>
+      <span class="ec-tile-value"><%= format_brl(@summary.year_total) %></span>
+    </span>
+  <% end %>
+
+  <%= link_to savings_path(month: month.strftime("%Y-%m")), class: "ec-tile ec-kpi-card", style: "--tile-color: #3b82f6" do %>
+    <span class="ec-tile-icon"><i class="bi bi-box-arrow-in-down"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("dashboards.kpi.entries") %></span>
+      <span class="ec-tile-value"><%= @summary.month_count %></span>
+    </span>
+  <% end %>
+
+  <%= link_to savings_path, class: "ec-tile ec-kpi-card", style: "--tile-color: #eab308" do %>
+    <span class="ec-tile-icon"><i class="bi bi-trophy-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("dashboards.kpi.biggest") %></span>
+      <span class="ec-tile-value"><%= format_brl(@summary.biggest_amount) %></span>
+    </span>
+  <% end %>
+
+  <%= link_to edit_profile_path, class: "ec-tile ec-kpi-card ec-streak-card", style: "--tile-color: #8b5cf6", title: t("dashboards.streak.hint") do %>
+    <span class="ec-tile-icon"><i class="bi bi-fire"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("dashboards.streak.title") %></span>
+      <span class="ec-tile-value"><%= t("dashboards.streak.days", count: @summary.current_streak) %></span>
+      <span class="ec-tile-hint"><%= t("dashboards.streak.best", count: @score.best_streak) %></span>
+    </span>
+  <% end %>
+</div>
+
+<div class="ec-section">
+  <h2><%= t("dashboards.recent.title") %></h2>
+  <%= link_to t("dashboards.recent.see_all"), savings_path %>
+</div>
+
+<% if @summary.recent.any? %>
+  <ul class="ec-list ec-recent-list">
+    <% @summary.recent.each do |saving| %>
+      <li>
+        <%= link_to saving_path(saving), class: "ec-list-item ec-recent-item" do %>
+          <%= category_icon(saving.category) %>
+          <span class="ec-list-body">
+            <span class="ec-list-title"><%= saving.title %></span>
+            <span class="ec-list-meta"><%= relative_date(saving.saved_on) %><%= " · #{saving.category.name}" if saving.category && saving.description.present? %></span>
+          </span>
+          <span class="ec-amount"><%= format_brl(saving.amount) %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="ec-list">
+    <div class="ec-empty">
+      <i class="bi bi-piggy-bank"></i>
+      <%= t("dashboards.recent.empty") %>
+    </div>
+  </div>
+<% end %>
+
+<%# Gráficos só no desktop: no celular a tela inicial fica com KPIs e últimas economias; os gráficos vivem em Relatórios. %>
+<div class="ec-dashboard-charts d-none d-md-block">
+<div class="ec-section">
+  <h2><%= t("dashboards.charts.title") %></h2>
+</div>
+
+<div class="row g-3">
+  <div class="col-12 col-xl-7">
+    <div class="ec-chart-card card h-100">
+      <div class="card-body">
+        <h2 class="ec-section-title"><%= t("dashboards.charts.by_month") %></h2>
+        <%= column_chart(
+              @summary.by_month.transform_keys { |d| l(d, format: "%b/%y") },
+              prefix: "R$ ", thousands: ".", decimal: ",",
+              colors: [ "#0ba360" ],
+              library: { plugins: { legend: { display: false } }, borderRadius: 6 },
+              height: "260px"
+            ) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-xl-5">
+    <div class="ec-chart-card card h-100">
+      <div class="card-body">
+        <h2 class="ec-section-title"><%= t("dashboards.charts.by_category") %></h2>
+        <% if @summary.by_category.any? %>
+          <%= pie_chart(
+                @summary.by_category.map { |cat, total| [ cat&.name || t("savings.form.no_category"), total ] },
+                prefix: "R$ ", thousands: ".", decimal: ",",
+                colors: @summary.by_category.map { |cat, _| cat&.color || "#6b7280" },
+                donut: true,
+                height: "260px"
+              ) %>
+        <% else %>
+          <p class="text-muted text-center py-5 mb-0"><%= t("dashboards.recent.empty") %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="ec-chart-card card">
+      <div class="card-body">
+        <h2 class="ec-section-title"><%= t("dashboards.charts.by_day") %></h2>
+        <%= line_chart(
+              @summary.by_day.transform_keys { |d| d.day.to_s },
+              prefix: "R$ ", thousands: ".", decimal: ",",
+              colors: [ "#0ba360" ],
+              curve: true,
+              library: { plugins: { legend: { display: false } } },
+              height: "220px"
+            ) %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="ec-tip">
+  <i class="bi bi-star-fill"></i>
+  <div>
+    <strong><%= t("dashboards.tip.title") %></strong>
+    <p><%= t("dashboards.tip.text") %></p>
+    <%= link_to tips_path, class: "ec-tip-link" do %>
+      <%= t("dashboards.tip.more") %> <i class="bi bi-arrow-right"></i>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-controller="theme">
+  <head>
+    <title><%= content_for(:title) || t("app.name") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= render "layouts/seo" %>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Poupinho">
+    <meta name="application-name" content="Poupinho">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#161d1a" media="(prefers-color-scheme: dark)">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="<%= pwa_manifest_path(format: :json) %>">
+
+    <script>
+      (function() {
+        var stored = localStorage.getItem("economiza-theme");
+        var theme = (stored === "light" || stored === "dark") ? stored :
+          (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-bs-theme", theme);
+      })();
+    </script>
+
+    <%= stylesheet_link_tag "bootstrap/bootstrap.min", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "bootstrap-icons/bootstrap-icons.min", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "theme", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <%= javascript_include_tag "bootstrap/bootstrap.bundle.min", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_include_tag "Chart.bundle", "chartkick", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= render "layouts/pwa" %>
+    <%# Telas próprias (landing, login) pedem :bare e ficam sem a moldura do app. %>
+    <% if authenticated? && !content_for?(:bare) %>
+      <%= render "layouts/topbar" %>
+      <main class="ec-content">
+        <%= yield %>
+      </main>
+      <%= render "layouts/bottom_nav" %>
+    <% else %>
+      <%= yield %>
+    <% end %>
+
+    <%= render "layouts/toasts" %>
+    <%= render "layouts/analytics" %>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("<%= pwa_service_worker_path(format: :js) %>", { scope: "/" })
+            .catch(function (error) { console.warn("Service worker não registrado:", error) })
+        })
+      }
+    </script>
+  </body>
+</html>

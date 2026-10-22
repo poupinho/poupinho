@@ -1,0 +1,42 @@
+<%= form_with model: @category, class: "ec-form" do |f| %>
+  <% if @category.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0 ps-3">
+        <% @category.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="ec-fields">
+    <label class="ec-field">
+      <span class="ec-field-label"><%= Category.human_attribute_name(:name) %></span>
+      <%= f.text_field :name, class: "form-control", required: true, maxlength: 60, autofocus: true %>
+    </label>
+
+    <div class="ec-fields-row">
+      <label class="ec-field">
+        <span class="ec-field-label"><%= Category.human_attribute_name(:icon) %></span>
+        <span class="ec-field-inline">
+          <span class="ec-field-icon-preview"><i class="bi <%= @category.icon.presence || 'bi-tag' %>"></i></span>
+          <%= f.text_field :icon, class: "form-control", maxlength: 60, placeholder: "bi-tag" %>
+        </span>
+        <span class="ec-field-hint"><%= t("categories.form.icon_hint") %></span>
+      </label>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= Category.human_attribute_name(:color) %></span>
+        <%= f.color_field :color, class: "form-control form-control-color" %>
+      </label>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= Category.human_attribute_name(:position) %></span>
+        <%= f.number_field :position, class: "form-control", min: 0 %>
+      </label>
+    </div>
+  </div>
+
+  <div class="ec-form-actions">
+    <%= f.submit t("categories.form.save"), class: "btn btn-primary btn-lg w-100" %>
+    <%= link_to t("categories.form.cancel"), categories_path, class: "btn btn-link" %>
+  </div>
+<% end %>

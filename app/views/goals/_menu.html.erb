@@ -1,0 +1,15 @@
+<div class="dropdown ec-goal-menu">
+  <button type="button" class="ec-icon-btn" data-bs-toggle="dropdown" aria-expanded="false"
+          aria-label="<%= t("goals.menu.label", name: goal.name) %>">
+    <i class="bi bi-three-dots-vertical"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><%= link_to edit_goal_path(goal), class: "dropdown-item" do %>
+      <i class="bi bi-pencil me-1"></i> <%= t("goals.form.edit") %>
+    <% end %></li>
+    <li><%= button_to goal_path(goal), method: :delete, class: "dropdown-item text-danger",
+              form: { style: "margin:0", data: { turbo_confirm: t("goals.form.confirm_delete") } } do %>
+      <i class="bi bi-trash me-1"></i> <%= t("goals.form.delete") %>
+    <% end %></li>
+  </ul>
+</div>

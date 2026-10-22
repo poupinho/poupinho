@@ -1,0 +1,35 @@
+today_lunch:
+  user: one
+  category: lunch
+  goal: trip
+  amount: 18.50
+  description: Levei marmita
+  saved_on: <%= Date.current %>
+
+today_transport:
+  user: one
+  category: transport
+  amount: 9.80
+  description: Fui de bicicleta
+  saved_on: <%= Date.current %>
+
+yesterday:
+  user: one
+  category: lunch
+  goal: trip
+  amount: 25.00
+  description: Café em casa
+  saved_on: <%= Date.current - 1 %>
+
+last_year:
+  user: one
+  amount: 100.00
+  description: Economia do ano passado
+  saved_on: <%= Date.new(Date.current.year - 1, 6, 15) %>
+
+other_user:
+  user: two
+  category: other_user_category
+  amount: 50.00
+  description: Do outro usuário
+  saved_on: <%= Date.current %>

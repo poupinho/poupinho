@@ -1,0 +1,62 @@
+<% page_title t("savings.index.title") %>
+<% active_filters = [params[:q], params[:month], params[:category_id]].count(&:present?) %>
+<% filtering = active_filters > 0 %>
+
+<div class="ec-page-head">
+  <div>
+    <h1><%= t("savings.index.title") %></h1>
+    <span class="ec-page-sub"><%= t("savings.index.subtitle") %></span>
+  </div>
+  <div class="ec-page-head-actions d-md-none">
+    <button type="button" class="btn btn-outline-secondary btn-sm ec-filters-toggle <%= 'active' if filtering %>"
+            data-bs-toggle="collapse" data-bs-target="#savings-filters"
+            aria-expanded="<%= filtering %>" aria-controls="savings-filters">
+      <i class="bi bi-funnel"></i> <%= t("savings.filters.toggle") %>
+      <% if filtering %><span class="badge rounded-pill text-bg-primary"><%= active_filters %></span><% end %>
+    </button>
+  </div>
+</div>
+
+<%# No mobile os filtros ficam recolhidos (abertos só quando há filtro ativo); no desktop sempre visíveis. %>
+<%= form_with url: savings_path, method: :get, id: "savings-filters", class: "ec-filters collapse #{'show' if filtering}" do |f| %>
+  <label class="ec-field">
+    <span class="ec-field-label"><%= t("savings.filters.search") %></span>
+    <%= search_field_tag :q, params[:q], class: "form-control", placeholder: t("savings.filters.search_placeholder") %>
+  </label>
+  <label class="ec-field">
+    <span class="ec-field-label"><%= t("savings.filters.month") %></span>
+    <%= month_field_tag :month, params[:month], class: "form-control", max: Date.current.strftime("%Y-%m") %>
+  </label>
+  <label class="ec-field">
+    <span class="ec-field-label"><%= t("savings.filters.category") %></span>
+    <%= select_tag :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
+          include_blank: t("savings.filters.all_categories"), class: "form-select" %>
+  </label>
+  <div class="ec-filters-actions">
+    <button type="submit" class="btn btn-outline-primary"><i class="bi bi-funnel"></i> <%= t("savings.filters.apply") %></button>
+    <% if filtering %>
+      <%= link_to savings_path, class: "btn btn-outline-secondary", title: t("savings.filters.clear"), aria: { label: t("savings.filters.clear") } do %>
+        <i class="bi bi-x-lg"></i>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="ec-list-summary">
+  <span><%= t("savings.index.count", count: @count) %></span>
+  <span><%= t("savings.index.total") %>: <strong><%= format_brl(@total) %></strong></span>
+</div>
+
+<% if @savings.any? %>
+  <ul class="ec-list" id="savings_items">
+    <%= render partial: "savings/saving_row", collection: @savings, as: :saving %>
+  </ul>
+  <%= render "savings/next_page", savings: @savings %>
+<% else %>
+  <div class="ec-list">
+    <div class="ec-empty">
+      <i class="bi bi-piggy-bank"></i>
+      <%= t("savings.index.empty") %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,56 @@
+<%# Card compartilhável: imagem 1080x1920 (stories/WhatsApp) desenhada no navegador
+    (controller share-card) com o total economizado, nível e sequência. O botão vive no
+    card do total (data-bs-toggle); a prévia é gerada quando o modal abre e ao trocar o período. %>
+<% month = Date.current %>
+<% periods = [
+     [ "month", @summary.month_total,    t("dashboards.share.periods.month"), t("dashboards.share.labels.month", month: l(month, format: "%B").downcase) ],
+     [ "year",  @summary.year_total,     t("dashboards.share.periods.year"),  t("dashboards.share.labels.year", year: month.year) ],
+     [ "all",   @summary.all_time_total, t("dashboards.share.periods.all"),   t("dashboards.share.labels.all") ]
+   ] %>
+<% default_period = periods.find { |_, total, *| total.positive? }&.first || "all" %>
+
+<div class="modal fade ec-share-modal" id="share-card-modal" tabindex="-1" aria-labelledby="share-card-title" aria-hidden="true"
+     data-controller="share-card"
+     data-action="show.bs.modal->share-card#render"
+     data-share-card-site-value="<%= t("app.name") %>"
+     data-share-card-url-value="<%= t("dashboards.share.card_url") %>"
+     data-share-card-headline-value="<%= t("dashboards.share.card_headline") %>"
+     data-share-card-tagline-value="<%= t("dashboards.share.card_tagline") %>"
+     data-share-card-level-value="<%= t("gamification.level_label", level: @score.level) %> · <%= @score.level_name %>"
+     data-share-card-streak-value="<%= @summary.current_streak > 1 ? t("dashboards.streak.days", count: @summary.current_streak) : "" %>"
+     data-share-card-qr-value="<%= Sharing::QrCode.call(canonical_url(share_qr_path)) %>"
+     data-share-card-qr-hint-value="<%= t("dashboards.share.card_qr_hint") %>"
+     data-share-card-text-value="<%= t("dashboards.share.text", url: root_url) %>"
+     data-share-card-file-value="<%= t("dashboards.share.file_name") %>">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="share-card-title"><i class="bi bi-share-fill me-2"></i><%= t("dashboards.share.title") %></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t("dashboards.share.close") %>"></button>
+      </div>
+      <div class="modal-body">
+        <fieldset class="ec-share-periods" data-action="change->share-card#render">
+          <legend class="visually-hidden"><%= t("dashboards.share.period") %></legend>
+          <% periods.each do |key, total, name, label| %>
+            <input type="radio" class="btn-check" name="share_period" id="share-period-<%= key %>" value="<%= key %>"
+                   data-share-card-target="period" data-amount="<%= format_brl(total) %>" data-label="<%= label %>"
+                   <%= "checked" if key == default_period %> autocomplete="off">
+            <label class="btn btn-outline-primary btn-sm" for="share-period-<%= key %>"><%= name %></label>
+          <% end %>
+        </fieldset>
+        <div class="ec-share-preview">
+          <img data-share-card-target="preview" alt="<%= t("dashboards.share.preview_alt") %>" width="270" height="480">
+        </div>
+        <p class="ec-share-hint mb-0"><%= t("dashboards.share.hint") %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-action="share-card#download">
+          <i class="bi bi-download"></i> <%= t("dashboards.share.download") %>
+        </button>
+        <button type="button" class="btn btn-primary" data-share-card-target="share" data-action="share-card#share" hidden>
+          <i class="bi bi-share-fill"></i> <%= t("dashboards.share.share") %>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

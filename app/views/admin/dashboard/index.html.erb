@@ -1,0 +1,147 @@
+<% page_title t("admin.dashboard.title") %>
+<% o = @overview %>
+
+<div class="ec-page-head">
+  <div>
+    <h1><%= t("admin.dashboard.title") %></h1>
+    <span class="ec-page-sub"><%= t("admin.dashboard.subtitle") %></span>
+  </div>
+  <div class="ec-page-head-actions">
+    <%= link_to admin_users_path, class: "btn btn-outline-primary btn-sm" do %>
+      <i class="bi bi-people"></i> <%= t("admin.users.title") %>
+    <% end %>
+  </div>
+</div>
+
+<div class="ec-section"><h2><%= t("admin.dashboard.users_section") %></h2></div>
+<div class="ec-tiles ec-tiles-4">
+  <%= link_to admin_users_path, class: "ec-tile ec-kpi-card", style: "--tile-color: #0ba360" do %>
+    <span class="ec-tile-icon"><i class="bi bi-people-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.users_total") %></span>
+      <span class="ec-tile-value"><%= o.users_total %></span>
+      <span class="ec-tile-hint"><%= t("admin.dashboard.kpi.admins", count: o.admins_total) %></span>
+    </span>
+  <% end %>
+  <div class="ec-tile ec-kpi-card" style="--tile-color: #3b82f6">
+    <span class="ec-tile-icon"><i class="bi bi-person-plus-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.users_7d") %></span>
+      <span class="ec-tile-value"><%= o.users_7d %></span>
+      <span class="ec-tile-hint"><%= t("admin.dashboard.kpi.users_30d", count: o.users_30d) %></span>
+    </span>
+  </div>
+  <div class="ec-tile ec-kpi-card" style="--tile-color: #8b5cf6">
+    <span class="ec-tile-icon"><i class="bi bi-activity"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.active_7d") %></span>
+      <span class="ec-tile-value"><%= o.active_users_7d %></span>
+      <span class="ec-tile-hint"><%= t("admin.dashboard.kpi.active_30d", count: o.active_users_30d) %></span>
+    </span>
+  </div>
+  <div class="ec-tile ec-kpi-card" style="--tile-color: #f59e0b">
+    <span class="ec-tile-icon"><i class="bi bi-bullseye"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.goals") %></span>
+      <span class="ec-tile-value"><%= o.goals_count %></span>
+      <span class="ec-tile-hint"><%= t("admin.dashboard.kpi.goals_achieved", count: o.goals_achieved_count) %></span>
+    </span>
+  </div>
+</div>
+
+<div class="ec-section"><h2><%= t("admin.dashboard.savings_section") %></h2></div>
+<div class="ec-tiles ec-tiles-4">
+  <div class="ec-tile ec-kpi-card" style="--tile-color: #0ba360">
+    <span class="ec-tile-icon"><i class="bi bi-piggy-bank-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.savings_total") %></span>
+      <span class="ec-tile-value"><%= format_brl(o.savings_total) %></span>
+      <span class="ec-tile-hint"><%= t("admin.dashboard.kpi.savings_count", count: o.savings_count) %></span>
+    </span>
+  </div>
+  <div class="ec-tile ec-kpi-card" style="--tile-color: #f59e0b">
+    <span class="ec-tile-icon"><i class="bi bi-sun-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.today") %></span>
+      <span class="ec-tile-value"><%= format_brl(o.savings_today_total) %></span>
+      <span class="ec-tile-hint"><%= t("admin.dashboard.kpi.savings_count", count: o.savings_today_count) %></span>
+    </span>
+  </div>
+  <div class="ec-tile ec-kpi-card" style="--tile-color: #0d9488">
+    <span class="ec-tile-icon"><i class="bi bi-calendar-week"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.last_7d") %></span>
+      <span class="ec-tile-value"><%= format_brl(o.savings_7d_total) %></span>
+    </span>
+  </div>
+  <div class="ec-tile ec-kpi-card" style="--tile-color: #ec4899">
+    <span class="ec-tile-icon"><i class="bi bi-bell-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("admin.dashboard.kpi.push") %></span>
+      <span class="ec-tile-value"><%= o.push_users %></span>
+      <span class="ec-tile-hint"><%= t("admin.dashboard.kpi.push_hint", count: o.push_devices) %></span>
+    </span>
+  </div>
+</div>
+
+<div class="row g-3 mt-1">
+  <div class="col-12 col-xl-6">
+    <div class="ec-chart-card card h-100"><div class="card-body">
+      <h2 class="ec-section-title"><%= t("admin.dashboard.charts.signups") %></h2>
+      <%= column_chart o.signups_by_day.transform_keys { |d| l(d, format: "%d/%m") }, colors: [ "#3b82f6" ],
+            library: { plugins: { legend: { display: false } }, borderRadius: 4 }, height: "240px" %>
+    </div></div>
+  </div>
+  <div class="col-12 col-xl-6">
+    <div class="ec-chart-card card h-100"><div class="card-body">
+      <h2 class="ec-section-title"><%= t("admin.dashboard.charts.savings") %></h2>
+      <%= column_chart o.savings_by_day.transform_keys { |d| l(d, format: "%d/%m") }, prefix: "R$ ", thousands: ".", decimal: ",",
+            colors: [ "#0ba360" ], library: { plugins: { legend: { display: false } }, borderRadius: 4 }, height: "240px" %>
+    </div></div>
+  </div>
+  <div class="col-12 col-xl-4">
+    <div class="ec-chart-card card h-100"><div class="card-body">
+      <h2 class="ec-section-title"><%= t("admin.dashboard.charts.categories") %></h2>
+      <% if o.top_categories.any? %>
+        <%= bar_chart o.top_categories, prefix: "R$ ", thousands: ".", decimal: ",", colors: [ "#8b5cf6" ],
+              library: { plugins: { legend: { display: false } }, borderRadius: 4 }, height: "260px" %>
+      <% else %>
+        <p class="text-muted text-center py-5 mb-0"><%= t("admin.dashboard.empty") %></p>
+      <% end %>
+    </div></div>
+  </div>
+  <div class="col-12 col-xl-4">
+    <div class="card h-100"><div class="card-body">
+      <h2 class="ec-section-title"><%= t("admin.dashboard.latest_users") %></h2>
+      <ul class="ec-list ec-admin-list">
+        <% o.latest_users.each do |user| %>
+          <li><%= link_to admin_user_path(user), class: "ec-list-item" do %>
+            <%= user_avatar(user) %>
+            <span class="ec-list-body">
+              <span class="ec-list-title"><%= user.display_name %></span>
+              <span class="ec-list-meta"><%= user.email_address %> · <%= l(user.created_at, format: :short) %></span>
+            </span>
+            <i class="bi bi-chevron-right text-muted small"></i>
+          <% end %></li>
+        <% end %>
+      </ul>
+    </div></div>
+  </div>
+  <div class="col-12 col-xl-4">
+    <div class="card h-100"><div class="card-body">
+      <h2 class="ec-section-title"><%= t("admin.dashboard.latest_savings") %></h2>
+      <ul class="ec-list ec-admin-list">
+        <% o.latest_savings.each do |saving| %>
+          <li><%= link_to admin_user_path(saving.user), class: "ec-list-item" do %>
+            <%= category_icon(saving.category) %>
+            <span class="ec-list-body">
+              <span class="ec-list-title"><%= saving.title %></span>
+              <span class="ec-list-meta"><%= saving.user.display_name %> · <%= relative_date(saving.saved_on) %></span>
+            </span>
+            <span class="ec-amount"><%= format_brl(saving.amount) %></span>
+          <% end %></li>
+        <% end %>
+      </ul>
+    </div></div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<%# Seção "Seu nível" do perfil: card do nível, origem dos pontos, regras e escada de níveis. %>
+<section class="ec-level-card" aria-label="<%= t("gamification.profile.title") %>">
+  <div class="ec-level-card-head">
+    <span class="ec-level-card-badge"><i class="bi bi-stars"></i></span>
+    <div>
+      <span><%= t("gamification.profile.title") %> · <%= t("gamification.level_label", level: score.level) %></span>
+      <strong><%= score.level_name %></strong>
+    </div>
+  </div>
+  <div class="ec-level-bar" role="progressbar" aria-valuenow="<%= score.progress_pct %>" aria-valuemin="0" aria-valuemax="100">
+    <span style="width: <%= score.progress_pct %>%"></span>
+  </div>
+  <div class="ec-level-card-foot">
+    <span><%= t("gamification.profile.total", points: score.points) %></span>
+    <span>
+      <% if score.max_level? %>
+        <%= t("gamification.max_level") %>
+      <% else %>
+        <%= t("gamification.to_next", count: score.points_to_next, level: score.level + 1) %>
+      <% end %>
+    </span>
+  </div>
+</section>
+
+<div class="ec-level-grid">
+  <div class="ec-level-box">
+    <h3><%= t("gamification.profile.breakdown_title") %></h3>
+    <ul class="ec-level-list">
+      <% score.breakdown.each do |source, points| %>
+        <li><span><%= t("gamification.profile.breakdown.#{source}") %></span><strong><%= points %></strong></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="ec-level-box">
+    <h3><%= t("gamification.profile.rules_title") %></h3>
+    <ul class="ec-level-rules">
+      <% t("gamification.profile.rules").each do |rule| %>
+        <li><i class="bi bi-check2-circle"></i><span><%= rule %></span></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="ec-level-box">
+    <h3><%= t("gamification.profile.ladder_title") %></h3>
+    <ol class="ec-level-ladder">
+      <% Gamification::Score::LEVELS.each do |level, floor| %>
+        <li class="<%= 'is-current' if level == score.level %> <%= 'is-done' if level < score.level %>">
+          <span class="ec-level-ladder-num"><%= level %></span>
+          <span><%= Gamification::Score.level_name(level) %></span>
+          <small><%= level == score.level ? t("gamification.profile.current") : t("gamification.profile.ladder_from", points: number_with_delimiter(floor, delimiter: ".")) %></small>
+        </li>
+      <% end %>
+    </ol>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<% page_title @saving.title %>
+
+<div class="ec-page-head">
+  <%= link_to savings_path, class: "ec-back", aria: { label: t("savings.show.back") } do %>
+    <i class="bi bi-arrow-left"></i>
+  <% end %>
+  <div>
+    <h1><%= t("savings.show.title") %></h1>
+    <span class="ec-page-sub"><%= l(@saving.saved_on, format: :long) %></span>
+  </div>
+</div>
+
+<div class="ec-form">
+  <div class="card">
+    <div class="card-body">
+      <div class="ec-detail-head">
+        <%= category_icon(@saving.category, css: "ec-category-icon-lg") %>
+        <div class="min-w-0">
+          <h2><%= @saving.title %></h2>
+          <%= category_badge(@saving.category) %>
+        </div>
+        <div class="ec-detail-amount"><%= format_brl(@saving.amount) %></div>
+      </div>
+
+      <div class="ec-detail-rows">
+        <div class="ec-detail-row">
+          <span><%= Saving.human_attribute_name(:saved_on) %></span>
+          <p><%= relative_date(@saving.saved_on) %> · <%= l(@saving.saved_on, format: :long) %></p>
+        </div>
+        <% if @saving.goal %>
+          <div class="ec-detail-row">
+            <span><%= Saving.human_attribute_name(:goal) %></span>
+            <p><%= link_to @saving.goal.name, goals_path %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 mt-3">
+    <%= link_to edit_saving_path(@saving), class: "btn btn-primary flex-grow-1" do %>
+      <i class="bi bi-pencil"></i> <%= t("savings.show.edit") %>
+    <% end %>
+    <%= button_to saving_path(@saving), method: :delete, class: "btn btn-outline-danger", form: { data: { turbo_confirm: t("savings.show.confirm_delete") } } do %>
+      <i class="bi bi-trash"></i> <%= t("savings.show.delete") %>
+    <% end %>
+  </div>
+</div>

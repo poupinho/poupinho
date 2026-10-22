@@ -1,0 +1,15 @@
+<% page_title t("savings.new.title") %>
+
+<div class="ec-form-page">
+<div class="ec-page-head">
+  <%= link_to (@return_to || savings_path), class: "ec-back", aria: { label: t("savings.show.back") } do %>
+    <i class="bi bi-arrow-left"></i>
+  <% end %>
+  <div>
+    <h1><%= t("savings.new.title") %></h1>
+    <span class="ec-page-sub"><%= t("savings.new.subtitle") %></span>
+  </div>
+</div>
+
+<%= render "form" %>
+</div>

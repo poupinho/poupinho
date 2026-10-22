@@ -1,0 +1,13 @@
+<li>
+  <%= link_to saving_path(saving), class: "ec-list-item ec-saving-row" do %>
+    <%= category_icon(saving.category) %>
+    <span class="ec-list-body">
+      <span class="ec-list-title"><%= saving.title %></span>
+      <span class="ec-list-meta">
+        <%= relative_date(saving.saved_on) %><%= " · #{saving.category.name}" if saving.category && saving.description.present? %>
+      </span>
+    </span>
+    <span class="ec-amount"><%= format_brl(saving.amount) %></span>
+    <i class="bi bi-chevron-right text-muted small"></i>
+  <% end %>
+</li>

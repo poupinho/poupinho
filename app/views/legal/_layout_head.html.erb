@@ -1,0 +1,13 @@
+<%# Cabeçalho simples das páginas legais (públicas, sem a moldura do app). %>
+<% content_for :bare, "1" %>
+<div class="ec-legal">
+  <header class="ec-legal-head">
+    <%= link_to root_path, class: "ec-landing-brand" do %>
+      <i class="bi bi-piggy-bank-fill"></i><span><%= t("app.name") %></span>
+    <% end %>
+    <nav class="ec-legal-nav">
+      <%= link_to t("legal.privacy.title"), privacy_path, class: ("is-active" if action_name == "privacy") %>
+      <%= link_to t("legal.terms.title"), terms_path, class: ("is-active" if action_name == "terms") %>
+      <%= link_to t("legal.account_deletion.title"), account_deletion_path, class: ("is-active" if action_name == "account_deletion") %>
+    </nav>
+  </header>

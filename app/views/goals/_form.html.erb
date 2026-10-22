@@ -1,0 +1,67 @@
+<%= form_with model: @goal, class: "ec-form" do |f| %>
+  <% if @goal.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0 ps-3">
+        <% @goal.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="ec-amount-field">
+    <%= f.label :target_amount, t("goals.form.target_label") %>
+    <div class="ec-amount-input">
+      <span class="ec-amount-prefix">R$</span>
+      <%= f.text_field :target_amount, value: brl_input_value(@goal.target_amount), class: "ec-amount-control",
+            required: true, placeholder: "0,00", autocomplete: "off", size: 6,
+            data: { controller: "currency-mask" } %>
+    </div>
+  </div>
+
+  <div class="ec-fields">
+    <label class="ec-field">
+      <span class="ec-field-label"><%= Goal.human_attribute_name(:name) %></span>
+      <%= f.text_field :name, class: "form-control", required: true, maxlength: 60, autofocus: @goal.new_record?,
+            placeholder: t("goals.form.name_placeholder") %>
+    </label>
+
+    <label class="ec-field">
+      <span class="ec-field-label"><%= Goal.human_attribute_name(:deadline) %></span>
+      <%= f.date_field :deadline, class: "form-control" %>
+      <span class="ec-field-hint"><%= t("goals.form.deadline_hint") %></span>
+    </label>
+
+    <div class="ec-fields-row">
+      <label class="ec-field">
+        <span class="ec-field-label"><%= Goal.human_attribute_name(:icon) %></span>
+        <span class="ec-field-inline">
+          <span class="ec-field-icon-preview"><i class="bi <%= @goal.icon.presence || 'bi-bullseye' %>"></i></span>
+          <%= f.text_field :icon, class: "form-control", maxlength: 60, placeholder: "bi-bullseye" %>
+        </span>
+        <span class="ec-field-hint"><%= t("goals.form.icon_hint") %></span>
+      </label>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= Goal.human_attribute_name(:color) %></span>
+        <%= f.color_field :color, class: "form-control form-control-color" %>
+      </label>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= Goal.human_attribute_name(:position) %></span>
+        <%= f.number_field :position, class: "form-control", min: 0 %>
+        <span class="ec-field-hint"><%= t("goals.form.position_hint") %></span>
+      </label>
+    </div>
+  </div>
+
+  <%= hidden_field_tag :onboarding, 1 if @onboarding %>
+  <div class="ec-form-actions">
+    <%= f.submit t("goals.form.save"), class: "btn btn-primary btn-lg w-100" %>
+    <% if @onboarding %>
+      <%= link_to dashboard_path, class: "btn btn-link" do %>
+        <%= t("goals.form.skip") %> <i class="bi bi-arrow-right"></i>
+      <% end %>
+    <% else %>
+      <%= link_to t("goals.form.cancel"), goals_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>

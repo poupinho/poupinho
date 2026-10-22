@@ -1,0 +1,95 @@
+<% page_title t("profiles.edit.title") %>
+
+<div class="ec-page-head">
+  <%= link_to dashboard_path, class: "ec-back", aria: { label: t("savings.show.back") } do %>
+    <i class="bi bi-arrow-left"></i>
+  <% end %>
+  <div>
+    <h1><%= t("profiles.edit.title") %></h1>
+    <span class="ec-page-sub"><%= t("profiles.edit.subtitle") %></span>
+  </div>
+</div>
+
+<%= render "profiles/level", score: @score %>
+
+<%= form_with model: @user, url: profile_path, method: :patch, class: "ec-form" do |f| %>
+  <% if @user.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0 ps-3">
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="ec-form-section">
+    <h2><%= t("profiles.form.sections.personal") %></h2>
+    <div class="ec-fields">
+      <%= render "profiles/avatar", f: f %>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= User.human_attribute_name(:name) %></span>
+        <%= f.text_field :name, class: "form-control", autocomplete: "name", maxlength: 120 %>
+      </label>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= User.human_attribute_name(:email_address) %></span>
+        <%= f.email_field :email_address, class: "form-control", required: true, autocomplete: "email" %>
+      </label>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= User.human_attribute_name(:phone) %></span>
+        <%= f.telephone_field :phone, value: @user.formatted_phone, class: "form-control", autocomplete: "tel-national",
+              placeholder: "(11) 91234-5678", data: { controller: "phone-mask" } %>
+      </label>
+    </div>
+  </div>
+
+  <%= render "profiles/reminders", f: f %>
+
+  <div class="ec-form-section">
+    <h2><%= t("profiles.form.sections.goal") %></h2>
+    <p><%= t("profiles.form.goal_hint") %></p>
+    <label class="ec-field">
+      <span class="ec-field-label"><%= User.human_attribute_name(:monthly_goal) %></span>
+      <span class="ec-field-inline">
+        <span class="fw-semibold text-muted">R$</span>
+        <%= f.text_field :monthly_goal, value: brl_input_value(@user.monthly_goal), class: "form-control",
+              placeholder: "0,00", autocomplete: "off", data: { controller: "currency-mask" } %>
+      </span>
+    </label>
+  </div>
+
+  <div class="ec-form-section">
+    <h2><%= t("profiles.form.sections.password") %></h2>
+    <p><%= t("profiles.form.password_hint") %></p>
+    <div class="ec-fields">
+      <label class="ec-field">
+        <span class="ec-field-label"><%= User.human_attribute_name(:password) %></span>
+        <%= f.password_field :password, class: "form-control", autocomplete: "new-password", maxlength: 72 %>
+      </label>
+      <label class="ec-field">
+        <span class="ec-field-label"><%= User.human_attribute_name(:password_confirmation) %></span>
+        <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password", maxlength: 72 %>
+      </label>
+    </div>
+  </div>
+
+  <div class="ec-form-actions">
+    <%= f.submit t("profiles.form.save"), class: "btn btn-primary btn-lg w-100" %>
+    <%= link_to t("profiles.form.cancel"), dashboard_path, class: "btn btn-link" %>
+  </div>
+<% end %>
+
+<%# Exclusão de conta: formulário próprio, separado do de edição, porque o envio
+    é destrutivo e pede a confirmação do e-mail. %>
+<section class="ec-danger-zone">
+  <h2><%= t("profiles.delete.section") %></h2>
+  <p><%= t("profiles.delete.text") %></p>
+  <%= form_with url: profile_path, method: :delete, class: "ec-danger-form" do |f| %>
+    <label class="ec-field">
+      <span class="ec-field-label"><%= t("profiles.delete.confirm_label", email: @user.email_address) %></span>
+      <%= f.text_field :confirmation, class: "form-control", autocomplete: "off",
+            inputmode: "email", placeholder: @user.email_address %>
+    </label>
+    <%= f.submit t("profiles.delete.button"), class: "btn btn-outline-danger w-100" %>
+  <% end %>
+</section>

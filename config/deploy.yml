@@ -1,0 +1,88 @@
+# Kamal 2 — config de deploy do Poupinho (service/imagem mantêm o nome interno `economiza`)
+# Docs: https://kamal-deploy.org
+#
+# O IP do servidor vem de DEPLOY_HOST no .env (fora do repositório).
+
+service: economiza
+
+# Imagem publicada em ghcr.io/rafaelbmateus/economiza
+image: rafaelbmateus/economiza
+
+servers:
+  web:
+    - <%= ENV.fetch("DEPLOY_HOST") %>
+
+# kamal-proxy termina TLS com certificado Let's Encrypt (HTTP-01) para os hosts
+# abaixo. DNS em Cloudflare (proxied) com SSL/TLS em modo "Full".
+proxy:
+  ssl: true
+  hosts:
+    - poupinho.com.br
+    - www.poupinho.com.br
+  app_port: 80
+
+registry:
+  server: ghcr.io
+  username: rafaelbmateus
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Driver `docker` (sem container buildkit): usa o resolvedor DNS do host, que o
+# builder docker-container padrão do Kamal não alcança nesta máquina.
+builder:
+  arch: amd64
+  driver: docker
+
+ssh:
+  user: root
+
+volumes:
+  - "economiza_storage:/rails/storage"
+
+env:
+  clear:
+    APP_HOST: poupinho.com.br
+    VAPID_SUBJECT: https://poupinho.com.br
+    DB_HOST: economiza-postgres
+    DB_USER: economiza
+    DB_PORT: 5432
+    SOLID_QUEUE_IN_PUMA: "true"
+    WEB_CONCURRENCY: "2"
+    RAILS_MAX_THREADS: "5"
+    RAILS_LOG_LEVEL: info
+    # Digital Asset Links do app Android (TWA). SHA-256 dos certificados de
+    # assinatura, separados por vírgula: o do Play App Signing e o da chave de
+    # upload. Vazio deixa /.well-known/assetlinks.json respondendo 404.
+    # Por enquanto só a chave de upload, que permite instalar o APK assinado no
+    # celular e conferir que a TWA abre em tela cheia. O do Play App Signing
+    # entra aqui depois do primeiro envio, separado por vírgula.
+    ANDROID_FINGERPRINTS: "0B:5A:75:0B:2C:0B:06:37:58:F7:1F:7D:26:29:B9:91:17:3F:61:7A:3F:72:03:25:DA:BB:E1:AA:E5:FA:A5:EC"
+  secret:
+    - RAILS_MASTER_KEY
+    - ECONOMIZA_DATABASE_PASSWORD
+    - VAPID_PUBLIC_KEY
+    - VAPID_PRIVATE_KEY
+    - GOOGLE_CLIENT_ID
+    - GOOGLE_CLIENT_SECRET
+    - GA_MEASUREMENT_ID
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole"
+  migrate: app exec "bin/rails db:migrate"
+  seed: app exec "bin/rails db:seed"
+
+accessories:
+  postgres:
+    image: postgres:16-alpine
+    host: <%= ENV.fetch("DEPLOY_HOST") %>
+    env:
+      clear:
+        POSTGRES_USER: economiza
+        POSTGRES_DB: economiza_production
+      secret:
+        - POSTGRES_PASSWORD
+    volumes:
+      - economiza_postgres_data:/var/lib/postgresql/data

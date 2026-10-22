@@ -1,0 +1,12 @@
+<% items = main_nav_items %>
+<% adding = controller_name == "savings" && %w[new create].include?(action_name) %>
+<nav class="ec-bottom-nav" aria-label="<%= t('nav.main') %>">
+  <%= nav_link(items[0]) %>
+  <%= nav_link(items[1]) %>
+  <%= link_to new_saving_path, class: "nav-link ec-nav-add #{'active' if adding}", aria: ({ current: "page" } if adding) do %>
+    <span class="ec-nav-add-icon"><i class="bi bi-plus-lg"></i></span>
+    <span><%= t("nav.add") %></span>
+  <% end %>
+  <%= nav_link(items[2]) %>
+  <%= nav_link(items[3]) %>
+</nav>

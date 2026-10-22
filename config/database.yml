@@ -1,0 +1,36 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  username: <%= ENV.fetch("DB_USER", "economiza") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "economiza") %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
+
+development:
+  <<: *default
+  database: economiza_development
+
+test:
+  <<: *default
+  database: economiza_test
+
+# Produção usa 4 bancos no mesmo Postgres (padrão Rails 8 com Solid Cache/Queue/Cable).
+production:
+  primary: &primary_production
+    <<: *default
+    database: economiza_production
+    username: economiza
+    password: <%= ENV["ECONOMIZA_DATABASE_PASSWORD"] %>
+  cache:
+    <<: *primary_production
+    database: economiza_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: economiza_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: economiza_production_cable
+    migrations_paths: db/cable_migrate

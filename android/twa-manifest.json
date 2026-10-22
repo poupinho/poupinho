@@ -1,0 +1,58 @@
+{
+  "packageId": "br.com.poupinho",
+  "host": "poupinho.com.br",
+  "name": "Poupinho",
+  "launcherName": "Poupinho",
+  "display": "standalone",
+  "themeColor": "#0ba360",
+  "themeColorDark": "#161d1a",
+  "navigationColor": "#0ba360",
+  "navigationColorDark": "#161d1a",
+  "navigationDividerColor": "#0ba360",
+  "navigationDividerColorDark": "#161d1a",
+  "backgroundColor": "#ffffff",
+  "enableNotifications": true,
+  "startUrl": "/dashboard",
+  "iconUrl": "https://poupinho.com.br/icon.png",
+  "maskableIconUrl": "https://poupinho.com.br/icon-maskable.png",
+  "monochromeIconUrl": "https://poupinho.com.br/badge-96.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./poupinho.keystore",
+    "alias": "poupinho"
+  },
+  "appVersionName": "1.0.0",
+  "appVersion": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "Registrar economia",
+      "shortName": "Nova economia",
+      "url": "/savings/new",
+      "chosenIconUrl": "https://poupinho.com.br/icon-192.png"
+    },
+    {
+      "name": "Histórico de economias",
+      "shortName": "Histórico",
+      "url": "/savings",
+      "chosenIconUrl": "https://poupinho.com.br/icon-192.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://poupinho.com.br/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://poupinho.com.br/",
+  "minSdkVersion": 23,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersionCodeOffset": 0
+}

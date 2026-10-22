@@ -1,0 +1,108 @@
+<% page_title t("goals.index.title") %>
+
+<div class="ec-page-head">
+  <div>
+    <h1><%= t("goals.index.title") %></h1>
+    <span class="ec-page-sub"><%= t("goals.index.subtitle") %></span>
+  </div>
+  <div class="ec-page-head-actions">
+    <%= link_to new_goal_path, class: "btn btn-primary d-inline-flex align-items-center gap-1" do %>
+      <i class="bi bi-plus-lg"></i> <span class="d-none d-sm-inline"><%= t("goals.index.new") %></span>
+    <% end %>
+  </div>
+</div>
+
+<% if @featured %>
+  <section class="ec-goal-featured" style="--goal-color: <%= @featured.goal.color %>">
+    <div class="ec-goal-featured-head">
+      <h2>
+        <span class="ec-goal-featured-icon"><i class="bi <%= @featured.goal.icon %>"></i></span>
+        <%= @featured.goal.name %>
+      </h2>
+      <%= render "menu", goal: @featured.goal %>
+    </div>
+
+    <p class="ec-goal-amounts">
+      <strong><%= format_brl(@featured.saved) %></strong>
+      <span><%= t("goals.of", amount: format_brl(@featured.goal.target_amount)) %></span>
+    </p>
+
+    <div class="ec-goal-bar-row">
+      <div class="ec-goal-bar" role="progressbar" aria-valuenow="<%= @featured.progress_capped %>" aria-valuemin="0" aria-valuemax="100">
+        <span style="width: <%= @featured.progress_capped %>%"></span>
+      </div>
+      <span class="ec-goal-pct"><%= @featured.progress %>%</span>
+    </div>
+
+    <div class="ec-goal-meta">
+      <span class="<%= "text-success fw-semibold" if @featured.achieved? %>">
+        <% if @featured.achieved? %>
+          <i class="bi bi-trophy-fill"></i> <%= t("goals.achieved") %>
+        <% else %>
+          <%= t("goals.remaining", amount: format_brl(@featured.remaining)) %>
+        <% end %>
+      </span>
+      <% if @featured.goal.deadline %>
+        <span class="<%= "ec-goal-overdue" if @featured.overdue? %>">
+          <%= t("goals.deadline", date: l(@featured.goal.deadline)) %>
+        </span>
+      <% end %>
+    </div>
+  </section>
+
+  <div class="ec-section">
+    <h2><%= t("goals.index.others") %></h2>
+    <%= link_to new_goal_path, class: "ec-icon-btn", title: t("goals.index.new"), aria: { label: t("goals.index.new") } do %>
+      <i class="bi bi-plus-lg"></i>
+    <% end %>
+  </div>
+
+  <% if @others.any? %>
+    <ul class="ec-list">
+      <% @others.each do |row| %>
+        <li class="ec-list-item ec-goal-row" style="--goal-color: <%= row.goal.color %>">
+          <span class="ec-category-icon" style="--cat-color: <%= row.goal.color %>"><i class="bi <%= row.goal.icon %>"></i></span>
+          <span class="ec-list-body">
+            <span class="ec-list-title"><%= row.goal.name %></span>
+            <span class="ec-goal-amounts ec-goal-amounts-sm">
+              <strong><%= format_brl(row.saved) %></strong>
+              <span><%= t("goals.of", amount: format_brl(row.goal.target_amount)) %></span>
+            </span>
+            <span class="ec-goal-bar-row">
+              <span class="ec-goal-bar" role="progressbar" aria-valuenow="<%= row.progress_capped %>" aria-valuemin="0" aria-valuemax="100">
+                <span style="width: <%= row.progress_capped %>%"></span>
+              </span>
+              <span class="ec-goal-pct"><%= row.progress %>%</span>
+            </span>
+          </span>
+          <%= render "menu", goal: row.goal %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="ec-list">
+      <div class="ec-empty"><%= t("goals.index.no_others") %></div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="ec-list">
+    <div class="ec-empty">
+      <i class="bi bi-bullseye"></i>
+      <%= t("goals.index.empty") %>
+    </div>
+  </div>
+<% end %>
+
+<div class="ec-tip" data-controller="dismissible" data-dismissible-key-value="goals-tip">
+  <i class="bi bi-star-fill"></i>
+  <div>
+    <strong><%= t("goals.tip.title") %></strong>
+    <p><%= t("goals.tip.text") %></p>
+    <%= link_to tips_path, class: "ec-tip-link" do %>
+      <%= t("goals.tip.more") %> <i class="bi bi-arrow-right"></i>
+    <% end %>
+  </div>
+  <button type="button" class="ec-tip-close" aria-label="<%= t('goals.tip.dismiss') %>" data-action="click->dismissible#dismiss">
+    <i class="bi bi-x-lg"></i>
+  </button>
+</div>

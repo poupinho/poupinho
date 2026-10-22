@@ -1,0 +1,66 @@
+<% content_for :title, t("tips.index.seo_title") %>
+<% page_description t("tips.index.seo_description") %>
+<% content_for :head do %>
+  <%# Lista de dicas para os buscadores (não executa como script). %>
+  <script type="application/ld+json">
+    <%= raw({
+      "@context" => "https://schema.org",
+      "@type" => "ItemList",
+      "name" => t("tips.index.seo_title"),
+      "itemListElement" => Tip.all.each_with_index.map do |tip, i|
+        { "@type" => "ListItem", "position" => i + 1, "name" => tip.title, "url" => canonical_url(tip_path(tip)) }
+      end
+    }.to_json) %>
+  </script>
+<% end %>
+
+<%= render layout: "tips/shell" do %>
+  <div class="ec-page-head">
+    <div>
+      <h1><%= t("tips.index.title") %></h1>
+      <span class="ec-page-sub"><%= t("tips.index.subtitle") %></span>
+    </div>
+  </div>
+
+  <div class="ec-tips-intro">
+    <i class="bi bi-piggy-bank-fill"></i>
+    <p><%= t("tips.index.intro") %></p>
+  </div>
+
+  <% @groups.each do |group| %>
+    <section class="ec-tips-group">
+      <h2 class="ec-tips-group-title" style="--cat-color: <%= group.color %>">
+        <span class="ec-category-icon" style="--cat-color: <%= group.color %>"><i class="bi <%= group.icon %>"></i></span>
+        <%= group.title %>
+      </h2>
+      <div class="ec-tips-grid">
+        <% group.tips.each do |tip| %>
+          <article class="ec-tip-card" style="--cat-color: <%= group.color %>">
+            <span class="ec-tip-card-icon"><i class="bi <%= tip.icon %>"></i></span>
+            <h3><%= link_to tip.title, tip_path(tip), class: "ec-tip-card-link" %></h3>
+            <p><%= tip.text %></p>
+            <% if tip.saving.present? %>
+              <span class="ec-tip-card-saving"><i class="bi bi-arrow-up-right"></i> <%= tip.saving %></span>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <div class="ec-tips-cta">
+    <% if authenticated? %>
+      <strong><%= t("tips.index.cta_title") %></strong>
+      <p><%= t("tips.index.cta_text") %></p>
+      <%= link_to new_saving_path, class: "btn btn-primary" do %>
+        <i class="bi bi-plus-lg"></i> <%= t("savings.index.new") %>
+      <% end %>
+    <% else %>
+      <strong><%= t("tips.index.public_cta_title") %></strong>
+      <p><%= t("tips.index.public_cta_text") %></p>
+      <%= link_to new_registration_path, class: "btn btn-primary" do %>
+        <%= t("tips.index.public_cta_button") %> <i class="bi bi-arrow-right"></i>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

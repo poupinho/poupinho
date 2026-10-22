@@ -1,0 +1,38 @@
+<% page_title t("auth.reset_title") %>
+
+<div class="ec-auth">
+  <%= render "shared/auth_brand" %>
+
+  <main class="ec-auth-form-wrap">
+    <div class="ec-auth-card">
+      <div class="ec-auth-logo ec-auth-logo-mobile">
+        <i class="bi bi-piggy-bank-fill"></i>
+        <span><%= t("app.name") %></span>
+      </div>
+
+      <header class="ec-auth-header">
+        <h2><%= t("auth.reset_title") %></h2>
+        <p><%= t("auth.reset_subtitle") %></p>
+      </header>
+
+      <%= render "shared/auth_flash" %>
+
+      <%= form_with url: password_path(params[:token]), method: :put, class: "ec-auth-fields" do |form| %>
+        <%= render "shared/password_field", form: form, field: :password, label: "Nova senha",
+              id: "password_new", autocomplete: "new-password", autofocus: true %>
+        <%= render "shared/password_field", form: form, field: :password_confirmation, label: "Confirmar senha",
+              id: "password_confirmation", autocomplete: "new-password", icon: "bi-shield-lock" %>
+
+        <div class="ec-auth-actions">
+          <%= form.submit "Salvar nova senha", class: "btn btn-primary btn-lg w-100 ec-auth-submit" %>
+        </div>
+
+        <div class="ec-auth-foot">
+          <%= link_to new_session_path, class: "ec-auth-link" do %>
+            <i class="bi bi-arrow-left"></i><span><%= t("auth.back_to_login") %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>

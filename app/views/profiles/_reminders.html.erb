@@ -1,0 +1,26 @@
+<%# Lembretes push automáticos: só ativar/desativar neste navegador (controller push). %>
+<% if Notifications::Push.configured? %>
+  <div class="ec-form-section">
+    <h2><%= t("profiles.form.sections.reminders") %></h2>
+    <p><%= t("profiles.form.reminders_hint") %></p>
+    <div class="ec-push" data-controller="push" data-push-public-key-value="<%= ENV["VAPID_PUBLIC_KEY"] %>" data-push-url-value="<%= push_subscription_path %>">
+      <div class="ec-push-row">
+        <span class="ec-push-icon"><i class="bi bi-bell-fill"></i></span>
+        <div class="ec-push-body">
+          <strong><%= t("profiles.reminders.push_title") %></strong>
+          <span class="ec-push-status" data-push-target="status">
+            <span data-when="on"><i class="bi bi-check-circle-fill text-success"></i> <%= t("profiles.reminders.status_on") %></span>
+            <span data-when="off"><%= t("profiles.reminders.status_off") %></span>
+            <span data-when="denied"><i class="bi bi-exclamation-circle text-warning"></i> <%= t("profiles.reminders.status_denied") %></span>
+            <span data-when="error"><i class="bi bi-exclamation-circle text-danger"></i> <%= t("profiles.reminders.status_error") %></span>
+            <span data-when="unsupported"><%= t("profiles.reminders.status_unsupported") %></span>
+            <span data-when="ios"><%= t("profiles.reminders.status_ios") %></span>
+            <span data-when="loading"><%= t("profiles.reminders.status_loading") %></span>
+          </span>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" data-push-target="enable" data-action="push#enable"><%= t("profiles.reminders.enable") %></button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-push-target="disable" data-action="push#disable"><%= t("profiles.reminders.disable") %></button>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,11 @@
+<%# Sentinela da rolagem infinita: um frame lazy que, ao entrar na tela, busca a
+    próxima página. A resposta (_page) anexa os itens à lista e traz a sentinela seguinte. %>
+<% unless savings.last_page? || savings.out_of_range? %>
+  <% next_url = savings_path(request.query_parameters.merge(page: savings.next_page)) %>
+  <turbo-frame id="savings_page_<%= savings.next_page %>" src="<%= next_url %>" loading="lazy" class="ec-load-more">
+    <%= link_to next_url, class: "btn btn-outline-secondary btn-sm ec-load-more-btn" do %>
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <%= t("savings.index.load_more") %>
+    <% end %>
+  </turbo-frame>
+<% end %>

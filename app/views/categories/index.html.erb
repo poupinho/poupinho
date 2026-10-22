@@ -1,0 +1,46 @@
+<% page_title t("categories.index.title") %>
+
+<div class="ec-page-head">
+  <div>
+    <h1><%= t("categories.index.title") %></h1>
+    <span class="ec-page-sub"><%= t("categories.index.subtitle") %></span>
+  </div>
+  <div class="ec-page-head-actions">
+    <%= link_to new_category_path, class: "btn btn-primary d-inline-flex align-items-center gap-1" do %>
+      <i class="bi bi-plus-lg"></i> <span class="d-none d-sm-inline"><%= t("categories.index.new") %></span>
+    <% end %>
+  </div>
+</div>
+
+<% if @categories.any? %>
+  <ul class="ec-list">
+    <% @categories.each do |category| %>
+      <li class="ec-list-item ec-category-card">
+        <%= category_icon(category) %>
+        <span class="ec-list-body">
+          <span class="ec-list-title"><%= category.name %></span>
+          <span class="ec-list-meta">
+            <%= t("categories.index.savings_count", count: @counts.fetch(category.id, 0)) %>
+            <span class="d-sm-none"> · <%= format_brl(@totals.fetch(category.id, 0)) %></span>
+          </span>
+        </span>
+        <span class="ec-amount d-none d-sm-inline"><%= format_brl(@totals.fetch(category.id, 0)) %></span>
+        <span class="ec-list-actions">
+          <%= link_to edit_category_path(category), class: "ec-icon-btn", title: t("savings.show.edit"), aria: { label: t("savings.show.edit") } do %>
+            <i class="bi bi-pencil"></i>
+          <% end %>
+          <%= button_to category_path(category), method: :delete, class: "ec-icon-btn text-danger", form: { data: { turbo_confirm: t("categories.form.confirm_delete") } }, title: t("categories.form.delete"), aria: { label: t("categories.form.delete") } do %>
+            <i class="bi bi-trash"></i>
+          <% end %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="ec-list">
+    <div class="ec-empty">
+      <i class="bi bi-tags"></i>
+      <%= t("categories.index.empty") %>
+    </div>
+  </div>
+<% end %>

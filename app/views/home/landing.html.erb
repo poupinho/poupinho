@@ -1,0 +1,515 @@
+<% rate = number_to_percentage(Simulations::Projection::DEFAULT_MONTHLY_RATE * 100, precision: 1, separator: ",") %>
+<% default_daily = 10 %>
+<% default_projection = Simulations::Projection.call(daily: default_daily) %>
+<% signed_in = authenticated? %>
+<% content_for :bare, "1" %>
+<% content_for :title, t("seo.landing_title") %>
+<% page_description t("seo.landing_description") %>
+<% content_for :head do %>
+  <%# Dados estruturados para buscadores (não executa como script). %>
+  <script type="application/ld+json">
+    <%= raw({
+      "@context" => "https://schema.org",
+      "@type" => "WebApplication",
+      "name" => t("app.name"),
+      "url" => request.base_url,
+      "description" => t("seo.landing_description"),
+      "applicationCategory" => "FinanceApplication",
+      "operatingSystem" => "Web",
+      "inLanguage" => "pt-BR",
+      "image" => "#{request.base_url}/og-image.png",
+      "offers" => { "@type" => "Offer", "price" => "0", "priceCurrency" => "BRL" }
+    }.to_json) %>
+  </script>
+<% end %>
+
+<div class="ec-landing" data-controller="parallax">
+  <header class="ec-landing-nav">
+    <div class="ec-landing-container">
+      <%= link_to root_path, class: "ec-landing-brand" do %>
+        <i class="bi bi-piggy-bank-fill"></i>
+        <span><%= t("app.name") %></span>
+      <% end %>
+
+      <nav class="ec-landing-links d-none d-md-flex">
+        <a href="#como-funciona"><%= t("home.nav.how") %></a>
+        <a href="#simulador"><%= t("home.nav.simulator") %></a>
+        <%= link_to t("tips.index.title"), tips_path %>
+      </nav>
+
+      <div class="ec-landing-actions">
+        <button type="button"
+                class="ec-landing-theme"
+                data-action="click->theme#toggle"
+                title="Alternar tema claro/escuro"
+                aria-label="Alternar tema">
+          <i class="bi bi-sun-fill" data-theme-target="lightIcon"></i>
+          <i class="bi bi-moon-stars-fill d-none" data-theme-target="darkIcon"></i>
+        </button>
+        <% if signed_in %>
+          <%= link_to dashboard_path, class: "btn btn-primary btn-sm ec-landing-btn" do %>
+            <%= t("home.nav.app") %> <i class="bi bi-arrow-right"></i>
+          <% end %>
+        <% else %>
+          <%= link_to t("home.nav.sign_in"), new_session_path, class: "btn btn-outline-primary btn-sm ec-landing-btn" %>
+          <%= link_to t("home.nav.sign_up"), new_registration_path, class: "btn btn-primary btn-sm ec-landing-btn d-none d-sm-inline-flex" %>
+        <% end %>
+      </div>
+    </div>
+  </header>
+
+  <section class="ec-landing-hero" data-parallax-section>
+    <div class="ec-landing-orb ec-landing-orb-1" data-parallax-target="layer" data-parallax-speed="-0.25" aria-hidden="true"></div>
+    <div class="ec-landing-orb ec-landing-orb-2" data-parallax-target="layer" data-parallax-speed="0.18" aria-hidden="true"></div>
+    <div class="ec-landing-orb ec-landing-orb-3" data-parallax-target="layer" data-parallax-speed="-0.12" aria-hidden="true"></div>
+    <%# O controller "slides" fica no grid para trocar, em sincronia, a tela do mock e o texto da esquerda. %>
+    <div class="ec-landing-container ec-landing-hero-grid" data-controller="slides" data-slides-interval-value="4500">
+      <div class="ec-landing-hero-copy" data-parallax-target="layer" data-parallax-speed="0.08">
+        <div class="ec-landing-hero-copies">
+          <% t("home.hero.copy").each_with_index do |copy, i| %>
+            <div class="ec-landing-hero-copy-slide" data-slides-target="copy"<%= ' aria-hidden="true"'.html_safe unless i.zero? %>>
+              <span class="ec-landing-eyebrow"><i class="bi bi-stars"></i> <%= copy[:eyebrow] %></span>
+              <%# Só o primeiro é h1 (um por página); os outros têm o mesmo visual. %>
+              <%= content_tag(i.zero? ? :h1 : :p, class: "ec-landing-hero-title") do %>
+                <%= safe_join(copy[:title].split(" ").each_with_index.map { |word, w| content_tag(:span, word, class: "ec-landing-word", style: "--w: #{w}") }, " ") %>
+              <% end %>
+              <p class="ec-landing-hero-text"><%= copy[:text] %></p>
+            </div>
+          <% end %>
+        </div>
+        <div class="ec-landing-cta">
+          <% if signed_in %>
+            <%= link_to dashboard_path, class: "btn btn-primary btn-lg ec-landing-btn" do %>
+              <%= t("home.nav.app") %> <i class="bi bi-arrow-right"></i>
+            <% end %>
+          <% else %>
+            <%= link_to new_registration_path, class: "btn btn-primary btn-lg ec-landing-btn" do %>
+              <%= t("home.hero.cta") %> <i class="bi bi-arrow-right"></i>
+            <% end %>
+            <%= link_to t("home.hero.secondary"), new_session_path, class: "btn btn-link btn-lg ec-landing-link" %>
+          <% end %>
+        </div>
+        <% unless signed_in %>
+          <small class="ec-landing-cta-hint"><i class="bi bi-shield-check"></i> <%= t("home.hero.cta_hint") %></small>
+        <% end %>
+      </div>
+
+      <div class="ec-landing-mock-stage" data-parallax-target="layer" data-parallax-speed="-0.06" aria-hidden="true">
+        <div class="ec-landing-chip ec-landing-chip-1" data-parallax-target="layer" data-parallax-speed="-0.26">
+          <span class="ec-landing-chip-icon" style="--cat-color: #f59e0b"><i class="bi bi-cup-hot"></i></span>
+          <span><%= t("home.hero.chips.coffee") %></span>
+          <strong>+<%= format_brl(7) %></strong>
+        </div>
+        <div class="ec-landing-chip ec-landing-chip-2" data-parallax-target="layer" data-parallax-speed="0.2">
+          <span class="ec-landing-chip-icon" style="--cat-color: #10b981"><i class="bi bi-bullseye"></i></span>
+          <span><%= t("home.hero.chips.goal") %></span>
+          <strong>82%</strong>
+        </div>
+        <div class="ec-landing-chip ec-landing-chip-3" data-parallax-target="layer" data-parallax-speed="-0.14">
+          <span class="ec-landing-chip-icon" style="--cat-color: #3b82f6"><i class="bi bi-bus-front"></i></span>
+          <span><%= t("home.hero.chips.transport") %></span>
+          <strong>+<%= format_brl(9.8) %></strong>
+        </div>
+        <div class="ec-landing-coin ec-landing-coin-1" data-parallax-target="layer" data-parallax-speed="0.32"><i class="bi bi-coin"></i></div>
+        <div class="ec-landing-coin ec-landing-coin-2" data-parallax-target="layer" data-parallax-speed="-0.3"><i class="bi bi-piggy-bank"></i></div>
+
+      <%# Carrossel de telas do app (sem setas): abas indicam a tela e trocam sozinhas. %>
+      <div class="ec-landing-mock" data-parallax-target="tilt" data-slides-target="hover">
+        <div class="ec-landing-mock-tabs" role="tablist">
+          <% { dashboard: "bi-speedometer2", goals: "bi-bullseye", report: "bi-bar-chart-line", categories: "bi-pie-chart" }.each_with_index do |(key, icon), i| %>
+            <button type="button" class="ec-landing-mock-tab" role="tab" data-slides-target="tab" data-index="<%= i %>" data-action="slides#go">
+              <i class="bi <%= icon %>"></i><span><%= t("home.hero.slides.#{key}") %></span>
+            </button>
+          <% end %>
+        </div>
+
+        <div class="ec-landing-mock-slides">
+          <%# 1. Painel %>
+          <div class="ec-landing-mock-slide" data-slides-target="slide">
+            <div class="ec-landing-mock-kpis">
+              <div class="ec-landing-mock-kpi">
+                <span><%= t("home.hero.mock.today") %></span>
+                <strong><%= format_brl(28.30) %></strong>
+              </div>
+              <div class="ec-landing-mock-kpi">
+                <span><%= t("home.hero.mock.month") %></span>
+                <strong><%= format_brl(412.90) %></strong>
+              </div>
+              <div class="ec-landing-mock-kpi ec-landing-mock-streak">
+                <i class="bi bi-fire"></i>
+                <strong>12</strong>
+                <span><%= t("home.hero.mock.streak") %></span>
+              </div>
+            </div>
+            <div class="ec-landing-mock-bars">
+              <% [ 35, 60, 45, 80, 55, 90, 70 ].each do |h| %>
+                <span style="--h: <%= h %>%"></span>
+              <% end %>
+            </div>
+            <ul class="ec-landing-mock-list">
+              <li><span class="ec-landing-mock-dot" style="--cat-color: #f59e0b"><i class="bi bi-cup-hot"></i></span><span><%= t("home.hero.mock.item_1") %></span><strong><%= format_brl(18) %></strong></li>
+              <li><span class="ec-landing-mock-dot" style="--cat-color: #8b5cf6"><i class="bi bi-cup"></i></span><span><%= t("home.hero.mock.item_2") %></span><strong><%= format_brl(6.5) %></strong></li>
+              <li><span class="ec-landing-mock-dot" style="--cat-color: #3b82f6"><i class="bi bi-bicycle"></i></span><span><%= t("home.hero.mock.item_3") %></span><strong><%= format_brl(14) %></strong></li>
+            </ul>
+          </div>
+
+          <%# 2. Metas %>
+          <div class="ec-landing-mock-slide" data-slides-target="slide">
+            <div class="ec-landing-mock-slide-head">
+              <span><%= t("home.hero.slides.goals_title") %></span>
+              <strong><%= format_brl(1151.85) %> <small><%= t("home.hero.slides.goals_total") %></small></strong>
+            </div>
+            <ul class="ec-landing-mock-goals">
+              <% [ ["goal_1", "bi-airplane", "#10b981", 380.5, 10000, 82], ["goal_2", "bi-shield-check", "#3b82f6", 409.85, 5000, 45], ["goal_3", "bi-phone", "#8b5cf6", 361.5, 3000, 12], ["goal_4", "bi-gift", "#ec4899", 240, 800, 30] ].each_with_index do |(key, icon, color, saved, target, pct), i| %>
+                <li style="--cat-color: <%= color %>; --pct: <%= pct %>%; --i: <%= i %>">
+                  <span class="ec-landing-mock-dot"><i class="bi <%= icon %>"></i></span>
+                  <span class="ec-landing-mock-goal-body">
+                    <span class="ec-landing-mock-goal-row"><span><%= t("home.hero.slides.#{key}") %></span><strong><%= pct %>%</strong></span>
+                    <span class="ec-landing-mock-goal-bar"><span></span></span>
+                    <small><%= format_brl(saved) %> / <%= format_brl(target, precision: 0) %></small>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <%# 3. Relatório anual %>
+          <div class="ec-landing-mock-slide" data-slides-target="slide">
+            <div class="ec-landing-mock-slide-head">
+              <span><%= t("home.hero.slides.report_title", year: Date.current.year) %></span>
+              <strong class="ec-landing-mock-big"><%= format_brl(2165.95) %></strong>
+              <em class="ec-landing-mock-delta"><i class="bi bi-arrow-up-right"></i> +18% <%= t("home.hero.slides.report_vs") %></em>
+            </div>
+            <div class="ec-landing-mock-months">
+              <% [ 30, 42, 38, 55, 48, 62, 58, 100, 66, 44, 36, 40 ].each_with_index do |h, i| %>
+                <span style="--h: <%= h %>%; --i: <%= i %>" class="<%= 'is-best' if h == 100 %>"></span>
+              <% end %>
+            </div>
+            <div class="ec-landing-mock-facts">
+              <span><i class="bi bi-trophy-fill"></i> <%= t("home.hero.slides.report_best", month: t("home.hero.slides.report_best_month")) %></span>
+              <span><i class="bi bi-calendar-check"></i> <%= format_brl(8.9) %> <%= t("home.hero.slides.report_avg") %></span>
+              <span><i class="bi bi-tag-fill"></i> <%= t("home.hero.slides.report_top", category: t("home.hero.slides.cat_1")) %></span>
+              <span><i class="bi bi-fire"></i> <%= t("home.hero.slides.report_days", count: 243) %></span>
+            </div>
+          </div>
+
+          <%# 4. Categorias %>
+          <div class="ec-landing-mock-slide" data-slides-target="slide">
+            <div class="ec-landing-mock-slide-head">
+              <span><%= t("home.hero.slides.categories_title") %></span>
+            </div>
+            <% cats = [ ["cat_1", "#f59e0b", 42, 173.4, 12, "bi-egg-fried"], ["cat_2", "#3b82f6", 26, 107.35, 4, "bi-bus-front"], ["cat_3", "#ec4899", 19, 78.45, -3, "bi-controller"], ["cat_4", "#8b5cf6", 13, 53.7, 40, "bi-tv"] ] %>
+            <div class="ec-landing-mock-donut-wrap">
+              <svg class="ec-landing-mock-donut" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="ec-landing-mock-donut-track" cx="50" cy="50" r="40"></circle>
+                <% offset = 0 %>
+                <% cats.each_with_index do |(_, color, pct, *), i| %>
+                  <circle cx="50" cy="50" r="40" stroke="<%= color %>" style="--pct: <%= pct %>; --offset: <%= offset %>; --i: <%= i %>"></circle>
+                  <% offset += pct %>
+                <% end %>
+                <text x="50" y="47" text-anchor="middle" class="ec-landing-mock-donut-label"><%= t("home.hero.mock.month") %></text>
+                <text x="50" y="60" text-anchor="middle" class="ec-landing-mock-donut-value"><%= format_brl(412.90, precision: 0) %></text>
+              </svg>
+              <ul class="ec-landing-mock-legend">
+                <% cats.each_with_index do |(key, color, pct, *), i| %>
+                  <li style="--cat-color: <%= color %>; --i: <%= i %>"><span class="ec-landing-mock-swatch"></span><span><%= t("home.hero.slides.#{key}") %></span><strong><%= pct %>%</strong></li>
+                <% end %>
+              </ul>
+            </div>
+            <ul class="ec-landing-mock-list ec-landing-mock-cats">
+              <% cats.each_with_index do |(key, color, _, amount, delta, icon), i| %>
+                <li style="--i: <%= i %>">
+                  <span class="ec-landing-mock-dot" style="--cat-color: <%= color %>"><i class="bi <%= icon %>"></i></span>
+                  <span><%= t("home.hero.slides.#{key}") %></span>
+                  <em class="ec-landing-mock-delta <%= delta < 0 ? 'is-down' : '' %>"><i class="bi <%= delta < 0 ? 'bi-arrow-down-right' : 'bi-arrow-up-right' %>"></i><%= delta > 0 ? '+' : '' %><%= delta %>%</em>
+                  <strong><%= format_brl(amount) %></strong>
+                </li>
+              <% end %>
+            </ul>
+            <small class="ec-landing-mock-foot"><%= t("home.hero.slides.categories_vs") %></small>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <%# Frases em duas esteiras contínuas (marquee) em sentidos opostos, de ponta a ponta da tela.
+      Cada esteira repete a fileira duas vezes (a cópia é aria-hidden) para o loop ser contínuo.
+      Pausa no hover; com prefers-reduced-motion vira uma grade estática. %>
+  <section class="ec-landing-quotes ec-reveal" data-parallax-target="reveal" aria-label="Frases">
+    <div class="ec-landing-quotes-marquee">
+      <% quotes = t("home.quotes") %>
+      <% [quotes, quotes.reverse].each_with_index do |row, r| %>
+        <div class="ec-landing-quotes-track<%= ' ec-landing-quotes-track-reverse' if r == 1 %>">
+          <% 2.times do |copy| %>
+            <div class="ec-landing-quotes-row"<%= ' aria-hidden="true"'.html_safe if copy == 1 %>>
+              <% row.each do |quote| %>
+                <blockquote class="ec-landing-quote"><i class="bi bi-quote"></i><span><%= quote %></span></blockquote>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="ec-landing-section">
+    <div class="ec-landing-container">
+      <header class="ec-landing-section-head ec-reveal" data-parallax-target="reveal">
+        <h2><%= t("home.how.title") %></h2>
+        <p><%= t("home.how.subtitle") %></p>
+      </header>
+      <%# Demo interativa: cada passo tem uma mini-tela; salvar no passo 1 anima os passos 2 e 3. %>
+      <% steps = t("home.how.steps") %>
+      <% month_base = 412.9; goal = 500 %>
+      <div class="ec-landing-steps ec-demo" data-controller="demo"
+           data-demo-month-base-value="<%= month_base %>" data-demo-goal-value="<%= goal %>" data-demo-streak-base-value="11">
+
+        <div class="ec-landing-step ec-demo-step ec-reveal" data-demo-target="step" data-parallax-target="reveal" style="--reveal-delay: 0ms">
+          <span class="ec-landing-step-number">1</span>
+          <h3><%= steps[0][:title] %></h3>
+          <p><%= steps[0][:text] %></p>
+          <div class="ec-demo-screen ec-demo-form">
+            <label class="ec-demo-amount">
+              <span><%= t("home.how.demo.amount_label") %></span>
+              <span class="ec-demo-amount-input">
+                <span>R$</span>
+                <input type="text" value="12,00" inputmode="numeric" aria-label="<%= t("home.how.demo.amount_label") %>"
+                       data-demo-target="amount" data-controller="currency-mask">
+              </span>
+            </label>
+            <div class="ec-demo-desc">
+              <span class="ec-landing-mock-dot" style="--cat-color: #f59e0b"><i class="bi bi-cup-hot"></i></span>
+              <span class="ec-demo-desc-text"><%= t("home.how.demo.description") %></span>
+              <span class="ec-demo-desc-cat"><%= t("home.how.demo.category") %></span>
+            </div>
+            <button type="button" class="btn btn-primary w-100 ec-demo-save" data-demo-target="save chipOrigin" data-action="demo#save">
+              <span class="ec-demo-save-label"><i class="bi bi-plus-lg"></i> <%= t("home.how.demo.save") %></span>
+              <span class="ec-demo-save-done"><i class="bi bi-check-lg"></i> <%= t("home.how.demo.saved") %></span>
+            </button>
+            <small class="ec-demo-hint"><i class="bi bi-hand-index-thumb"></i> <%= t("home.how.demo.hint") %></small>
+          </div>
+        </div>
+
+        <div class="ec-landing-step ec-demo-step ec-reveal" data-demo-target="step" data-parallax-target="reveal" style="--reveal-delay: 120ms">
+          <span class="ec-landing-step-number">2</span>
+          <h3><%= steps[1][:title] %></h3>
+          <p><%= steps[1][:text] %></p>
+          <div class="ec-demo-screen">
+            <div class="ec-demo-kpis">
+              <div class="ec-landing-mock-kpi"><span><%= t("home.how.demo.today") %></span><strong data-demo-target="today"><%= format_brl(0) %></strong></div>
+              <div class="ec-landing-mock-kpi"><span><%= t("home.how.demo.month") %></span><strong data-demo-target="month"><%= format_brl(month_base) %></strong></div>
+            </div>
+            <div class="ec-demo-bars" aria-hidden="true">
+              <span style="--h: 45%"></span><span style="--h: 70%"></span><span style="--h: 30%"></span>
+              <span style="--h: 85%"></span><span style="--h: 55%"></span><span style="--h: 62%"></span>
+              <span style="--h: 38%" data-demo-target="bar"></span>
+            </div>
+            <ul class="ec-landing-mock-list ec-demo-list" data-demo-target="list">
+              <li><span class="ec-landing-mock-dot" style="--cat-color: #10b981"><i class="bi bi-egg-fried"></i></span><span><%= t("home.how.demo.item_1") %></span><strong><%= format_brl(18) %></strong></li>
+              <li><span class="ec-landing-mock-dot" style="--cat-color: #3b82f6"><i class="bi bi-person-walking"></i></span><span><%= t("home.how.demo.item_2") %></span><strong><%= format_brl(9.8) %></strong></li>
+            </ul>
+            <template data-demo-target="itemTemplate">
+              <li><span class="ec-landing-mock-dot" style="--cat-color: #f59e0b"><i class="bi bi-cup-hot"></i></span><span><%= t("home.how.demo.description") %></span><strong data-demo-amount></strong></li>
+            </template>
+          </div>
+        </div>
+
+        <div class="ec-landing-step ec-demo-step ec-reveal" data-demo-target="step" data-parallax-target="reveal" style="--reveal-delay: 240ms">
+          <span class="ec-landing-step-number">3</span>
+          <h3><%= steps[2][:title] %></h3>
+          <p><%= steps[2][:text] %></p>
+          <div class="ec-demo-screen">
+            <div class="ec-demo-goal">
+              <div class="ec-demo-goal-head">
+                <span><i class="bi bi-bullseye"></i> <%= t("home.how.demo.goal_label") %> · <%= format_brl(goal, precision: 0) %></span>
+                <strong data-demo-target="progressLabel">83%</strong>
+              </div>
+              <div class="ec-demo-progress"><span data-demo-target="progress" style="width: 83%"></span></div>
+            </div>
+            <div class="ec-landing-mock-kpi ec-landing-mock-streak ec-demo-streak">
+              <i class="bi bi-fire"></i>
+              <strong><span data-demo-target="streak">11</span></strong>
+              <span><%= t("home.how.demo.streak") %></span>
+            </div>
+            <div class="ec-demo-badge" data-demo-target="badge" hidden>
+              <span data-kind="streak"><i class="bi bi-trophy-fill"></i> <%= t("home.how.demo.badge_streak") %></span>
+              <span data-kind="goal"><i class="bi bi-trophy-fill"></i> <%= t("home.how.demo.badge_goal") %></span>
+            </div>
+            <button type="button" class="btn btn-link btn-sm ec-demo-reset" data-demo-target="reset" data-action="demo#reset" hidden>
+              <i class="bi bi-arrow-counterclockwise"></i> <%= t("home.how.demo.reset") %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="simulador" class="ec-landing-section ec-landing-simulator-section" data-parallax-section>
+    <div class="ec-landing-orb ec-landing-orb-4" data-parallax-target="layer" data-parallax-speed="-0.2" aria-hidden="true"></div>
+    <div class="ec-landing-orb ec-landing-orb-5" data-parallax-target="layer" data-parallax-speed="0.15" aria-hidden="true"></div>
+    <div class="ec-landing-container">
+      <div class="ec-landing-simulator ec-reveal" data-parallax-target="reveal"
+           data-controller="simulator"
+           data-simulator-rate-value="<%= Simulations::Projection::DEFAULT_MONTHLY_RATE.to_f %>"
+           data-simulator-title-template-value="<%= t("home.simulator.title", amount: "%{amount}") %>">
+        <header class="ec-landing-section-head ec-reveal" data-parallax-target="reveal">
+          <h2 data-simulator-target="title"><%= t("home.simulator.title", amount: format_brl(default_daily, precision: 0)) %></h2>
+          <p><%= t("home.simulator.subtitle") %></p>
+        </header>
+
+        <div class="ec-landing-simulator-input">
+          <label for="simulator-range" class="ec-landing-simulator-label">
+            <%= t("home.simulator.daily_label") %>
+            <strong data-simulator-target="daily"><%= format_brl(default_daily, precision: 0) %></strong>
+          </label>
+          <input type="range" id="simulator-range" class="form-range" min="1" max="100" step="1"
+                 value="<%= default_daily %>"
+                 data-simulator-target="range"
+                 data-action="input->simulator#update">
+          <div class="ec-landing-simulator-presets">
+            <% Simulations::Projection::EXAMPLE_DAILY_AMOUNTS.each do |amount| %>
+              <button type="button" class="btn btn-sm btn-outline-primary" data-amount="<%= amount.to_i %>" data-action="simulator#preset">
+                <%= format_brl(amount, precision: 0) %>
+              </button>
+            <% end %>
+          </div>
+          <small class="ec-landing-simulator-monthly"><%= t("home.simulator.per_month_html", amount: content_tag(:span, format_brl(default_projection.monthly, precision: 0), data: { simulator_target: "monthly" })) %></small>
+        </div>
+
+        <div class="ec-landing-horizons">
+          <% default_projection.rows.each do |row| %>
+            <div class="ec-landing-horizon ec-reveal" data-parallax-target="reveal" style="--reveal-delay: <%= (row.months.to_s.size) * 90 %>ms">
+              <span class="ec-landing-horizon-label"><%= t("home.simulator.horizons.#{row.key}") %></span>
+              <strong class="ec-landing-horizon-saved" data-simulator-target="saved" data-months="<%= row.months %>"><%= format_brl(row.saved, precision: 0) %></strong>
+              <span class="ec-landing-horizon-hint"><%= t("home.simulator.saved") %></span>
+              <span class="ec-landing-horizon-invested">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span data-simulator-target="invested" data-months="<%= row.months %>"><%= format_brl(row.invested, precision: 0) %></span>
+                <small><%= t("home.simulator.invested", rate: rate) %></small>
+              </span>
+            </div>
+          <% end %>
+        </div>
+
+        <p class="ec-landing-disclaimer"><%= t("home.simulator.disclaimer", rate: rate) %></p>
+      </div>
+
+      <div class="ec-landing-table-wrap ec-reveal" data-parallax-target="reveal">
+        <h3 class="ec-landing-table-title"><%= t("home.simulator.table.title") %></h3>
+        <div class="table-responsive">
+          <table class="table ec-landing-table">
+            <thead>
+              <tr>
+                <th><%= t("home.simulator.table.daily") %></th>
+                <th><%= t("home.simulator.table.year") %></th>
+                <th><%= t("home.simulator.table.five_years") %></th>
+                <th><%= t("home.simulator.table.ten_years") %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @examples.each do |example| %>
+                <tr>
+                  <th scope="row"><%= format_brl(example.daily, precision: 0) %></th>
+                  <% %i[year five_years ten_years].each do |key| %>
+                    <td>
+                      <strong><%= format_brl(example[key].saved, precision: 0) %></strong>
+                      <small><%= format_brl(example[key].invested, precision: 0) %> <%= t("home.simulator.table.invested_hint") %></small>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ec-landing-section">
+    <div class="ec-landing-container">
+      <header class="ec-landing-section-head ec-reveal" data-parallax-target="reveal">
+        <h2><%= t("home.features.title") %></h2>
+        <p><%= t("home.features.subtitle") %></p>
+      </header>
+      <div class="ec-landing-features">
+        <% t("home.features.items").each_with_index do |item, i| %>
+          <div class="ec-landing-feature ec-reveal" data-parallax-target="reveal" style="--reveal-delay: <%= (i % 3) * 100 %>ms">
+            <span class="ec-landing-feature-icon"><i class="bi <%= item[:icon] %>"></i></span>
+            <h3><%= item[:title] %></h3>
+            <p><%= item[:text] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="ec-landing-section ec-landing-testimonials-section" aria-labelledby="depoimentos-title">
+    <div class="ec-landing-container">
+      <header class="ec-landing-section-head ec-reveal" data-parallax-target="reveal">
+        <h2 id="depoimentos-title"><%= t("home.testimonials.title") %></h2>
+        <p><%= t("home.testimonials.subtitle") %></p>
+      </header>
+      <%# Carrossel: faixa rolável que avança sozinha (carousel) e aceita arrastar/roda do mouse (hscroll). %>
+      <div class="ec-landing-testimonials" data-controller="carousel hscroll" data-carousel-interval-value="5000">
+        <% t("home.testimonials.items").each do |item| %>
+          <figure class="ec-landing-testimonial" style="--avatar-color: <%= item[:color] %>">
+            <span class="ec-landing-testimonial-stars" aria-label="5 de 5 estrelas">
+              <% 5.times do %><i class="bi bi-star-fill"></i><% end %>
+            </span>
+            <blockquote>
+              <p><%= item[:text] %></p>
+            </blockquote>
+            <figcaption>
+              <span class="ec-landing-testimonial-avatar" aria-hidden="true"><%= item[:initials] %></span>
+              <span class="ec-landing-testimonial-who">
+                <strong><%= item[:name] %></strong>
+                <small><%= item[:role] %></small>
+              </span>
+              <span class="ec-landing-testimonial-highlight"><i class="bi bi-piggy-bank-fill"></i> <%= item[:highlight] %></span>
+            </figcaption>
+          </figure>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="ec-landing-final" data-parallax-section>
+    <div class="ec-landing-container ec-landing-final-inner ec-reveal" data-parallax-target="reveal">
+      <div class="ec-landing-final-orb ec-landing-final-orb-1" data-parallax-target="layer" data-parallax-speed="-0.3" aria-hidden="true"></div>
+      <div class="ec-landing-final-orb ec-landing-final-orb-2" data-parallax-target="layer" data-parallax-speed="0.25" aria-hidden="true"></div>
+      <div class="ec-landing-coin ec-landing-coin-3" data-parallax-target="layer" data-parallax-speed="0.12" aria-hidden="true"><i class="bi bi-coin"></i></div>
+      <div class="ec-landing-coin ec-landing-coin-4" data-parallax-target="layer" data-parallax-speed="-0.12" aria-hidden="true"><i class="bi bi-cash-coin"></i></div>
+      <h2><%= t("home.cta.title") %></h2>
+      <p><%= signed_in ? t("home.cta.text_signed_in") : t("home.cta.text") %></p>
+      <%= link_to (signed_in ? dashboard_path : new_registration_path), class: "btn btn-light btn-lg ec-landing-btn ec-landing-final-btn" do %>
+        <%= signed_in ? t("home.nav.app") : t("home.cta.button") %> <i class="bi bi-arrow-right"></i>
+      <% end %>
+    </div>
+  </section>
+
+  <footer class="ec-landing-footer">
+    <div class="ec-landing-container ec-landing-footer-inner">
+      <div class="ec-landing-brand ec-landing-brand-sm">
+        <i class="bi bi-piggy-bank-fill"></i>
+        <span><%= t("app.name") %></span>
+      </div>
+      <span class="ec-landing-footer-tagline"><%= t("home.footer.tagline") %></span>
+      <nav class="ec-landing-footer-links">
+        <%= link_to t("tips.index.title"), tips_path %>
+        <% if signed_in %>
+          <%= link_to t("home.nav.app"), dashboard_path %>
+        <% else %>
+          <%= link_to t("home.footer.sign_in"), new_session_path %>
+          <%= link_to t("home.footer.sign_up"), new_registration_path %>
+        <% end %>
+      </nav>
+      <nav class="ec-landing-footer-links ec-landing-footer-legal">
+        <%= link_to t("legal.privacy.title"), privacy_path %>
+        <%= link_to t("legal.terms.title"), terms_path %>
+      </nav>
+      <span class="ec-landing-footer-copy">© <%= Date.current.year %> <%= t("app.name") %></span>
+    </div>
+  </footer>
+</div>

@@ -1,0 +1,22 @@
+<% page_title t("goals.new.title") %>
+
+<% if @onboarding %>
+  <%# Primeiro passo depois do cadastro: sem botão de voltar, com boas-vindas e opção de pular. %>
+  <div class="ec-onboarding-head">
+    <span class="ec-onboarding-step"><i class="bi bi-stars"></i> <%= t("goals.new.onboarding_step") %></span>
+    <h1><%= t("goals.new.onboarding_title", name: current_user.first_name) %></h1>
+    <p><%= t("goals.new.onboarding_subtitle") %></p>
+  </div>
+<% else %>
+  <div class="ec-page-head">
+    <%= link_to goals_path, class: "ec-back", aria: { label: t("savings.show.back") } do %>
+      <i class="bi bi-arrow-left"></i>
+    <% end %>
+    <div>
+      <h1><%= t("goals.new.title") %></h1>
+      <span class="ec-page-sub"><%= t("goals.new.subtitle") %></span>
+    </div>
+  </div>
+<% end %>
+
+<%= render "form" %>

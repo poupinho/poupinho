@@ -1,0 +1,32 @@
+<% page_title t("legal.account_deletion.title") %>
+<% page_description t("legal.account_deletion.description") %>
+<%= render "legal/layout_head" %>
+  <main class="ec-legal-body">
+    <h1><%= t("legal.account_deletion.title") %></h1>
+    <p><%= t("legal.account_deletion.intro") %></p>
+
+    <section>
+      <h2><%= t("legal.account_deletion.steps_title") %></h2>
+      <ol>
+        <% t("legal.account_deletion.steps").each do |step| %><li><%= step %></li><% end %>
+      </ol>
+    </section>
+
+    <section>
+      <h2><%= t("legal.account_deletion.deleted_title") %></h2>
+      <ul>
+        <% t("legal.account_deletion.deleted").each do |item| %><li><%= item %></li><% end %>
+      </ul>
+    </section>
+
+    <section>
+      <h2><%= t("legal.account_deletion.retained_title") %></h2>
+      <p><%= t("legal.account_deletion.retained") %></p>
+    </section>
+
+    <section>
+      <h2><%= t("legal.account_deletion.contact_title") %></h2>
+      <p><%= t("legal.account_deletion.contact_html", email: "rafaelbmateus.dev@gmail.com") %></p>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,103 @@
+<% page_title @tip.title %>
+<% page_description @tip.description %>
+<% content_for :head do %>
+  <%# Artigo e trilha de navegação para os buscadores (não executa como script). %>
+  <script type="application/ld+json">
+    <%= raw({
+      "@context" => "https://schema.org",
+      "@graph" => [
+        {
+          "@type" => "Article",
+          "headline" => @tip.title,
+          "description" => @tip.description,
+          "inLanguage" => "pt-BR",
+          "mainEntityOfPage" => canonical_url(tip_path(@tip)),
+          "image" => canonical_url("/og-image.png"),
+          "articleSection" => @tip.group.title,
+          "publisher" => { "@type" => "Organization", "name" => t("app.name"), "url" => canonical_base_url }
+        },
+        {
+          "@type" => "BreadcrumbList",
+          "itemListElement" => [
+            { "@type" => "ListItem", "position" => 1, "name" => t("tips.show.breadcrumb"), "item" => canonical_url(tips_path) },
+            { "@type" => "ListItem", "position" => 2, "name" => @tip.title }
+          ]
+        }
+      ]
+    }.to_json) %>
+  </script>
+<% end %>
+
+<%= render layout: "tips/shell" do %>
+  <article class="ec-tip-page" style="--cat-color: <%= @tip.group.color %>">
+    <nav class="ec-tip-breadcrumb" aria-label="Trilha de navegação">
+      <%= link_to t("tips.show.breadcrumb"), tips_path %>
+      <i class="bi bi-chevron-right"></i>
+      <span><%= @tip.group.title %></span>
+    </nav>
+
+    <header class="ec-tip-page-head">
+      <span class="ec-tip-card-icon"><i class="bi <%= @tip.icon %>"></i></span>
+      <h1><%= @tip.title %></h1>
+      <p class="ec-tip-page-lead"><%= @tip.text %></p>
+      <% if @tip.saving.present? %>
+        <span class="ec-tip-card-saving">
+          <i class="bi bi-arrow-up-right"></i> <%= t("tips.show.saving_label") %>: <%= @tip.saving %>
+        </span>
+      <% end %>
+    </header>
+
+    <div class="ec-tip-page-body">
+      <% @tip.body.each do |paragraph| %>
+        <p><%= paragraph %></p>
+      <% end %>
+    </div>
+
+    <section class="ec-tip-steps">
+      <h2><%= t("tips.show.steps_title") %></h2>
+      <ol>
+        <% @tip.steps.each do |step| %>
+          <li><%= step %></li>
+        <% end %>
+      </ol>
+    </section>
+
+    <% if @tip.math.present? %>
+      <section class="ec-tip-math">
+        <h2><%= t("tips.show.math_title") %></h2>
+        <p><%= @tip.math %></p>
+      </section>
+    <% end %>
+
+    <div class="ec-tips-cta">
+      <% if authenticated? %>
+        <strong><%= t("tips.show.cta_title") %></strong>
+        <p><%= t("tips.show.cta_text") %></p>
+        <%= link_to new_saving_path, class: "btn btn-primary" do %>
+          <i class="bi bi-plus-lg"></i> <%= t("tips.show.cta_button") %>
+        <% end %>
+      <% else %>
+        <strong><%= t("tips.show.public_cta_title") %></strong>
+        <p><%= t("tips.show.public_cta_text") %></p>
+        <%= link_to new_registration_path, class: "btn btn-primary" do %>
+          <%= t("tips.show.public_cta_button") %> <i class="bi bi-arrow-right"></i>
+        <% end %>
+      <% end %>
+    </div>
+
+    <section class="ec-tip-related">
+      <h2><%= t("tips.show.related_title", group: @tip.group.title.downcase) %></h2>
+      <ul>
+        <% @tip.related.each do |related| %>
+          <li>
+            <%= link_to related.title, tip_path(related) %>
+            <% if related.saving.present? %><small><%= related.saving %></small><% end %>
+          </li>
+        <% end %>
+      </ul>
+      <%= link_to tips_path, class: "ec-tip-link" do %>
+        <i class="bi bi-arrow-left"></i> <%= t("tips.show.back") %>
+      <% end %>
+    </section>
+  </article>
+<% end %>

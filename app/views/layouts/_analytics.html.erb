@@ -1,0 +1,23 @@
+<%# Google Analytics 4 (gtag.js). Ativo apenas com GA_MEASUREMENT_ID definido, assim não
+    conta o ambiente de desenvolvimento. As navegações do Turbo (pushState) já são contadas
+    pela medição aprimorada do GA4, sem listener manual.
+    Consent Mode: cookies começam negados; o banner (layouts/_cookie_banner) libera ao aceitar,
+    e a escolha fica em localStorage ("economiza-cookies"). Negado, o GA só manda pings sem cookie. %>
+<% if analytics_id.present? %>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= analytics_id %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'
+    });
+    try {
+      if (localStorage.getItem('economiza-cookies') === 'granted') {
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+    } catch (error) {}
+    gtag('js', new Date());
+    gtag('config', '<%= analytics_id %>');
+  </script>
+  <%= render "layouts/cookie_banner" %>
+<% end %>

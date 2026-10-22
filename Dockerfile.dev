@@ -1,0 +1,29 @@
+FROM ruby:3.3-slim
+
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    BUNDLE_PATH=/usr/local/bundle \
+    BUNDLE_JOBS=4 \
+    BUNDLE_RETRY=3
+
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+      build-essential \
+      libpq-dev \
+      libyaml-dev \
+      libffi-dev \
+      libvips \
+      git \
+      curl \
+      pkg-config \
+      postgresql-client \
+      tzdata && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /usr/local/bundle && chmod -R 0777 /usr/local/bundle
+
+WORKDIR /app
+
+EXPOSE 3000
+
+CMD ["bash"]

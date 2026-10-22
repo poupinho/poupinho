@@ -1,0 +1,7 @@
+<%# Resposta de uma página seguinte (requisição de Turbo Frame). %>
+<turbo-frame id="savings_page_<%= savings.current_page %>">
+  <turbo-stream action="append" target="savings_items">
+    <template><%= render partial: "savings/saving_row", collection: savings, as: :saving %></template>
+  </turbo-stream>
+  <%= render "savings/next_page", savings: savings %>
+</turbo-frame>

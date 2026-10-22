@@ -1,0 +1,6 @@
+one_phone:
+  user: one
+  endpoint: https://push.example.com/one/phone
+  p256dh: BPhoneKey
+  auth: phone-auth
+  user_agent: iPhone

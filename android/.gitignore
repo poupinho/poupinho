@@ -1,0 +1,23 @@
+# Só o twa-manifest.json é fonte: `bubblewrap update` regenera todo o resto do
+# projeto Android a partir dele.
+app/
+build/
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+gradle.properties
+build.gradle
+settings.gradle
+local.properties
+manifest-checksum.txt
+store_icon.png
+
+# Chave de assinatura e artefatos do build: nunca versionar. Perder ou vazar a
+# upload key custa caro.
+*.keystore
+*.jks
+*.aab
+*.apk
+*.idsig
+assetlinks.json

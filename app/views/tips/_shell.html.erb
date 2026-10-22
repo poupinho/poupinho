@@ -1,0 +1,44 @@
+<%# Moldura das páginas de dicas. Logado, o layout do app já dá topo e menu.
+    Anônimo é o caso que vem da busca: precisa de cabeçalho, rodapé e caminho
+    de volta para o cadastro, então a página pede :bare e monta os dois. %>
+<% if authenticated? %>
+  <%= yield %>
+<% else %>
+  <% content_for :bare, "1" %>
+  <div class="ec-public">
+    <header class="ec-public-head">
+      <%= link_to root_path, class: "ec-landing-brand" do %>
+        <i class="bi bi-piggy-bank-fill"></i><span><%= t("app.name") %></span>
+      <% end %>
+      <nav class="ec-public-nav">
+        <%= link_to t("tips.index.title"), tips_path %>
+        <%= link_to t("home.nav.sign_in"), new_session_path %>
+        <%= link_to t("home.nav.sign_up"), new_registration_path, class: "btn btn-primary btn-sm ec-landing-btn" %>
+      </nav>
+    </header>
+
+    <main class="ec-public-body">
+      <%= yield %>
+    </main>
+
+    <footer class="ec-landing-footer">
+      <div class="ec-landing-container ec-landing-footer-inner">
+        <div class="ec-landing-brand ec-landing-brand-sm">
+          <i class="bi bi-piggy-bank-fill"></i>
+          <span><%= t("app.name") %></span>
+        </div>
+        <span class="ec-landing-footer-tagline"><%= t("home.footer.tagline") %></span>
+        <nav class="ec-landing-footer-links">
+          <%= link_to t("tips.index.title"), tips_path %>
+          <%= link_to t("home.footer.sign_in"), new_session_path %>
+          <%= link_to t("home.footer.sign_up"), new_registration_path %>
+        </nav>
+        <nav class="ec-landing-footer-links ec-landing-footer-legal">
+          <%= link_to t("legal.privacy.title"), privacy_path %>
+          <%= link_to t("legal.terms.title"), terms_path %>
+        </nav>
+        <span class="ec-landing-footer-copy">© <%= Date.current.year %> <%= t("app.name") %></span>
+      </div>
+    </footer>
+  </div>
+<% end %>

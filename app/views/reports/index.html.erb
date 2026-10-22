@@ -1,0 +1,130 @@
+<% page_title t("reports.index.title") %>
+
+<div class="ec-page-head">
+  <div>
+    <h1><%= t("reports.index.title") %></h1>
+    <small class="ec-page-sub"><%= t("reports.index.subtitle", year: @year) %></small>
+  </div>
+  <div class="ec-page-head-actions">
+    <%= form_with url: reports_path, method: :get, class: "d-flex align-items-center gap-2" do %>
+      <%= label_tag :year, t("reports.index.year"), class: "form-label mb-0 text-muted small" %>
+      <%= select_tag :year, options_for_select(@years, @year), class: "form-select form-select-sm", onchange: "this.form.requestSubmit()" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="ec-tiles ec-tiles-4">
+  <div class="ec-tile" style="--tile-color: #0ba360">
+    <span class="ec-tile-icon"><i class="bi bi-piggy-bank-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("reports.index.kpi.total") %></span>
+      <span class="ec-tile-value"><%= format_brl(@report.total) %></span>
+    </span>
+  </div>
+  <div class="ec-tile" style="--tile-color: #3b82f6">
+    <span class="ec-tile-icon"><i class="bi bi-calendar-month"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("reports.index.kpi.average") %></span>
+      <span class="ec-tile-value"><%= format_brl(@report.monthly_average) %></span>
+    </span>
+  </div>
+  <div class="ec-tile" style="--tile-color: #eab308">
+    <span class="ec-tile-icon"><i class="bi bi-trophy-fill"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("reports.index.kpi.best_month") %></span>
+      <% if @report.best_month %>
+        <span class="ec-tile-value"><%= format_brl(@report.best_month[:total]) %></span>
+        <span class="ec-tile-hint"><%= l(@report.best_month[:month], format: "%B") %></span>
+      <% else %>
+        <span class="ec-tile-value">—</span>
+      <% end %>
+    </span>
+  </div>
+  <div class="ec-tile" style="--tile-color: #8b5cf6">
+    <span class="ec-tile-icon"><i class="bi bi-box-arrow-in-down"></i></span>
+    <span class="ec-tile-body">
+      <span class="ec-tile-label"><%= t("reports.index.kpi.count") %></span>
+      <span class="ec-tile-value"><%= @report.count %></span>
+    </span>
+  </div>
+</div>
+
+<%# O gráfico por mês só aparece com dois ou mais meses; com um mês só, o card some. %>
+<% show_months_chart = @report.rows.size >= 2 %>
+<div class="row g-3 mt-1">
+  <% if show_months_chart %>
+    <div class="col-12 col-xl-7">
+      <div class="ec-chart-card card h-100">
+        <div class="card-body">
+          <h2 class="ec-section-title"><%= t("reports.index.charts.by_month") %></h2>
+          <%= column_chart(
+                @report.rows.map { |r| [ l(r.month, format: "%b"), r.total ] },
+                prefix: "R$ ", thousands: ".", decimal: ",",
+                colors: [ "#0ba360" ],
+                library: { plugins: { legend: { display: false } }, borderRadius: 6 },
+                height: "280px"
+              ) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="col-12 <%= 'col-xl-5' if show_months_chart %>">
+    <div class="ec-chart-card card h-100">
+      <div class="card-body">
+        <h2 class="ec-section-title"><%= t("reports.index.charts.by_category") %></h2>
+        <% if @report.by_category.any? %>
+          <%= pie_chart(
+                @report.by_category.map { |cat, total| [ cat&.name || t("savings.form.no_category"), total ] },
+                prefix: "R$ ", thousands: ".", decimal: ",",
+                colors: @report.by_category.map { |cat, _| cat&.color || "#6b7280" },
+                donut: true, height: "280px"
+              ) %>
+        <% else %>
+          <p class="text-muted text-center py-5 mb-0"><%= t("reports.index.table.empty") %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0 ec-table">
+      <thead>
+        <tr>
+          <th><%= t("reports.index.table.month") %></th>
+          <th class="text-end"><%= t("reports.index.table.count") %></th>
+          <th class="text-end"><%= t("reports.index.table.total") %></th>
+          <th class="text-end"><%= t("reports.index.table.share") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @report.rows.empty? %>
+          <tr><td colspan="4" class="text-muted text-center py-4"><%= t("reports.index.table.empty") %></td></tr>
+        <% end %>
+        <% @report.rows.each do |row| %>
+          <tr class="<%= 'text-muted' if row.count.zero? %>">
+            <td>
+              <% if row.count.positive? %>
+                <%= link_to l(row.month, format: "%B"), savings_path(month: row.month.strftime("%Y-%m")), class: "text-reset text-decoration-none fw-semibold" %>
+              <% else %>
+                <%= l(row.month, format: "%B") %>
+              <% end %>
+            </td>
+            <td class="text-end"><%= row.count %></td>
+            <td class="text-end <%= 'text-success fw-semibold' if row.count.positive? %>"><%= format_brl(row.total) %></td>
+            <td class="text-end"><%= number_to_percentage(row.share, precision: 1, separator: ",") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot class="fw-semibold">
+        <tr>
+          <td>Total</td>
+          <td class="text-end"><%= @report.count %></td>
+          <td class="text-end text-success"><%= format_brl(@report.total) %></td>
+          <td class="text-end">100,0%</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

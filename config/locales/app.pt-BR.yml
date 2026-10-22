@@ -1,0 +1,988 @@
+pt-BR:
+  app:
+    name: Poupinho
+    tagline: Cada real que você deixa de gastar conta.
+
+  views:
+    pagination:
+      first: Primeira
+      last: Última
+      previous: Anterior
+      next: Próxima
+      truncate: "…"
+
+  seo:
+    default_title: "Poupinho — Registre o que você deixou de gastar"
+    default_description: "Anote cada gasto que você evitou e veja quanto dinheiro ficou no seu bolso por dia, mês e ano. Metas, sequência de dias e relatórios. Grátis."
+    landing_title: "Poupinho — Sua economia de hoje é o seu futuro de amanhã"
+    landing_description: "Registre em segundos o que você deixou de gastar, acompanhe dashboards por dia, mês e ano, crie metas com nome e mantenha a sequência de dias. Grátis, sem cartão."
+    image_alt: "Poupinho: registre o que você deixou de gastar. Pequenas economias, grandes conquistas."
+
+  nav:
+    main: Navegação principal
+    dashboard: Início
+    savings: Histórico
+    add: Adicionar
+    goals: Metas
+    categories: Categorias
+    reports: Relatórios
+    profile: Perfil
+    tips: Dicas para poupar
+    landing: Página inicial
+    admin: Painel do sistema
+    account: Minha conta
+    sign_out: Sair
+
+  dates:
+    today: Hoje
+    yesterday: Ontem
+
+  auth:
+    sign_in: Entrar
+    sign_in_subtitle: Acesse sua conta para continuar
+    sign_up: Criar conta
+    sign_up_subtitle: Comece a registrar suas economias hoje
+    google:
+      or: ou
+      button: Continuar com Google
+      failed: "Não foi possível entrar com o Google: %{reason}"
+    forgot_password: Esqueci minha senha
+    forgot_title: Esqueceu sua senha?
+    forgot_subtitle: Informe seu e-mail e enviaremos um link para redefinição.
+    reset_title: Redefinir senha
+    reset_subtitle: Defina uma nova senha para acessar sua conta.
+    back_to_login: Voltar para o login
+    no_account: Ainda não tem conta?
+    have_account: Já tem conta?
+    pitch_title: Descubra quanto você economiza todo dia.
+    pitch_text: Registre cada gasto que você evitou e acompanhe, mês a mês, o dinheiro que ficou no seu bolso.
+    features:
+      quick: Registro rápido, em segundos
+      charts: Dashboards por mês e por ano
+      goal: Meta mensal com acompanhamento
+
+  cookies:
+    title: Cookies e privacidade
+    text_html: "Usamos o Google Analytics só para entender como o Poupinho é usado. Nenhum dado seu é vendido ou compartilhado. Veja a <a href=\"%{url}\">política de privacidade</a>."
+    accept: Aceitar
+    decline: Recusar
+
+  dashboards:
+    title: Início
+    summary: Resumo
+    hero:
+      total: Total economizado
+      year: "%{amount} em %{year}"
+    share:
+      button: Compartilhar
+      title: Compartilhar conquista
+      period: Período
+      periods:
+        month: Este mês
+        year: Este ano
+        all: Total
+      labels:
+        month: "em %{month}"
+        year: "em %{year}"
+        all: desde que comecei
+      card_headline: Eu economizei
+      card_tagline: Registre o que você deixou de gastar
+      card_url: poupinho.com.br
+      card_qr_hint: Aponte a câmera e comece a economizar
+      preview_alt: Prévia da imagem para compartilhar
+      hint: Imagem pronta para stories e WhatsApp.
+      share: Compartilhar
+      download: Baixar imagem
+      close: Fechar
+      file_name: poupinho-economia.png
+      text: "Economizei %%{amount} %%{label} com o Poupinho 🐷 Registre o que você deixa de gastar: %{url}"
+    kpi:
+      today: Hoje
+      month: Este mês
+      year: Este ano
+      entries: Registros no mês
+      biggest: Maior economia
+    goal:
+      title: Meta em destaque
+      label: "Meta de %{month}:"
+      reached: Meta atingida! 🎉
+      toggle: Ver detalhes da meta
+      remaining_hint: "Falta %{amount} para sua meta"
+      none: Crie uma meta e acompanhe aqui o quanto já falta para conquistá-la.
+      set: Criar meta
+    streak:
+      title: Sequência
+      days:
+        one: "%{count} dia seguido"
+        other: "%{count} dias seguidos"
+      best: "Recorde: %{count} dias"
+      hint: Dias consecutivos com economia registrada
+    charts:
+      title: Gráficos
+      by_month: Últimos 12 meses
+      by_category: Por categoria neste mês
+      by_day: Dia a dia neste mês
+    recent:
+      title: Últimas economias
+      empty: Nenhuma economia ainda. Toque no + para registrar a primeira!
+      see_all: Ver tudo
+    tip:
+      title: Dica
+      text: Que tal economizar um pouco todo dia? Pequenas economias, grandes conquistas!
+      more: Ver todas as dicas
+    push_banner:
+      title: Ative os lembretes
+      text: Um aviso por dia, no horário em que você costuma registrar, para a sequência não quebrar.
+      enable: Ativar
+      dismiss: Agora não
+
+  savings:
+    index:
+      title: Histórico
+      subtitle: Tudo que você deixou de gastar
+      new: Nova economia
+      empty: Nenhuma economia encontrada para os filtros escolhidos.
+      total: "Total no período"
+      load_more: Carregar mais
+      count:
+        one: "%{count} registro"
+        other: "%{count} registros"
+    filters:
+      search: Buscar
+      search_placeholder: Descrição da economia
+      month: Mês
+      all_months: Todos os meses
+      category: Categoria
+      all_categories: Todas as categorias
+      apply: Filtrar
+      clear: Limpar
+      toggle: Filtros
+    untitled: Economia
+    new:
+      title: Nova economia
+      subtitle: O que você deixou de gastar?
+    edit:
+      title: Editar economia
+    show:
+      title: Economia
+      edit: Editar
+      delete: Excluir
+      confirm_delete: Excluir esta economia?
+      back: Voltar
+    form:
+      amount_label: Quanto você economizou?
+      amount_placeholder: "0,00"
+      description_label: Descrição (opcional)
+      description_placeholder: "Ex.: levei marmita em vez de almoçar fora"
+      no_category: Sem categoria
+      goal_label: Meta (opcional)
+      no_goal: Sem meta
+      cancel: Cancelar
+      save: Salvar economia
+    flash:
+      created: "Economia de %{amount} registrada! %{points}"
+      updated: Economia atualizada.
+      destroyed: Economia excluída.
+
+  categories:
+    index:
+      title: Categorias
+      subtitle: Organize suas economias
+      new: Nova categoria
+      empty: Nenhuma categoria. Crie a primeira!
+      savings_count:
+        one: "%{count} economia"
+        other: "%{count} economias"
+    new:
+      title: Nova categoria
+    edit:
+      title: Editar categoria
+    form:
+      icon_hint: "Nome de um ícone do Bootstrap Icons (ex.: bi-cup-hot)"
+      cancel: Cancelar
+      save: Salvar
+      delete: Excluir
+      confirm_delete: "Excluir esta categoria? As economias vinculadas ficarão sem categoria."
+    flash:
+      created: Categoria criada.
+      updated: Categoria atualizada.
+      destroyed: Categoria excluída.
+
+  goals:
+    of: "/ %{amount}"
+    remaining: "Falta %{amount}"
+    achieved: Meta atingida!
+    deadline: "Prazo: %{date}"
+    index:
+      title: Minhas metas
+      subtitle: Para onde vai o dinheiro que você economiza
+      new: Nova meta
+      others: Outras metas
+      no_others: Esta é a sua única meta por enquanto.
+      empty: Nenhuma meta ainda. Crie a primeira e acompanhe o progresso!
+    new:
+      onboarding_step: Primeiro passo
+      onboarding_title: "Bem-vindo, %{name}! Vamos criar sua primeira meta"
+      onboarding_subtitle: "Uma meta com nome dá destino a cada economia: viagem, reserva de emergência, celular novo. Dá para mudar depois."
+      title: Nova meta
+      subtitle: Quanto você quer juntar?
+    edit:
+      title: Editar meta
+    menu:
+      label: "Opções da meta %{name}"
+    form:
+      target_label: Valor da meta
+      name_placeholder: "Ex.: Viagem dos sonhos"
+      deadline_hint: Opcional. Deixe em branco para uma meta sem prazo.
+      icon_hint: "Nome de um ícone do Bootstrap Icons (ex.: bi-airplane)"
+      position_hint: A meta de menor ordem aparece em destaque.
+      edit: Editar
+      delete: Excluir
+      confirm_delete: "Excluir esta meta? As economias vinculadas continuam registradas, mas ficam sem meta."
+      cancel: Cancelar
+      skip: Pular por enquanto
+      save: Salvar meta
+    tip:
+      title: Dica
+      text: Que tal economizar um pouco todo dia? Pequenas economias, grandes conquistas!
+      more: Ver todas as dicas
+      dismiss: Fechar dica
+    flash:
+      created: Meta criada.
+      created_onboarding: "Meta criada! Agora registre sua primeira economia no +."
+      updated: Meta atualizada.
+      destroyed: Meta excluída.
+
+  reports:
+    index:
+      title: Relatórios
+      subtitle: "Visão anual de %{year}"
+      year: Ano
+      kpi:
+        total: Total no ano
+        average: Média mensal
+        best_month: Melhor mês
+        count: Registros
+      charts:
+        by_month: Economizado por mês
+        by_category: Por categoria no ano
+      table:
+        month: Mês
+        count: Registros
+        total: Total
+        share: "% do ano"
+        empty: Nenhuma economia registrada neste ano.
+
+  profiles:
+    edit:
+      title: Meu perfil
+      subtitle: Atualize seus dados, lembretes, meta mensal ou senha.
+    delete:
+      section: Excluir conta
+      text: "Apaga sua conta e tudo que está nela: economias registradas, metas, categorias e foto. A ação é imediata e não tem volta."
+      confirm_label: "Para confirmar, digite seu e-mail (%{email})"
+      button: Excluir minha conta
+      mismatch: O e-mail digitado não confere com o da sua conta. Nada foi apagado.
+      done: Sua conta e todos os seus dados foram apagados.
+    reminders:
+      push_title: Notificações neste dispositivo
+      status_loading: Verificando…
+      status_on: Lembretes ativados neste navegador.
+      status_off: Ative para receber o lembrete diário aqui.
+      status_denied: Permissão negada. Libere as notificações nas configurações do navegador.
+      status_error: Não foi possível ativar. Tente de novo.
+      status_unsupported: Este navegador não suporta notificações push.
+      status_ios: "No iPhone, primeiro instale o Poupinho na tela inicial (Compartilhar → Adicionar à Tela de Início) e ative por lá."
+      enable: Ativar lembretes
+      disable: Desativar
+    form:
+      cancel: Cancelar
+      save: Salvar alterações
+      password_hint: Deixe em branco para manter a senha atual.
+      avatar_hint: JPG, PNG ou WebP de até 5 MB. Quem entra com o Google já começa com a foto da conta.
+      avatar_choose: Escolher foto
+      avatar_remove: Remover foto
+      goal_hint: Quanto você quer economizar por mês? Aparece como barra de progresso no dashboard.
+      reminders_hint: "Se você ainda não tiver registrado nada no dia, o Poupinho manda um lembrete no horário em que você costuma registrar (no máximo um por dia)."
+      sections:
+        personal: Dados pessoais
+        reminders: Lembretes
+        goal: Meta mensal
+        account: Conta de acesso
+        password: Alterar senha
+    flash:
+      updated: Perfil atualizado.
+
+  tips:
+    index:
+      title: Dicas para poupar
+      seo_title: "Dicas para poupar dinheiro no dia a dia"
+      seo_description: "15 dicas práticas para economizar em alimentação, transporte, assinaturas e hábitos. Cada uma com passo a passo e quanto dá para guardar por mês."
+      subtitle: Ideias simples para transformar pequenos "não" em dinheiro guardado
+      intro: Poupar não é cortar tudo. É trocar um gasto automático por uma escolha consciente e registrar aqui cada vez que fizer isso. Comece por uma ou duas dicas e vá somando.
+      read_more: Ver a dica completa
+      cta_title: Colocou uma dica em prática hoje?
+      cta_text: Registre o valor que ficou no seu bolso e veja a sequência de dias crescer.
+      public_cta_title: Quer acompanhar quanto essas dicas rendem?
+      public_cta_text: Crie uma conta grátis e registre cada gasto evitado. Em uma tela só você vê o total do dia, do mês e do ano.
+      public_cta_button: Criar conta grátis
+    show:
+      breadcrumb: Dicas para poupar
+      saving_label: Economia estimada
+      steps_title: Como colocar em prática
+      math_title: De onde vem a estimativa
+      related_title: "Outras dicas de %{group}"
+      back: Ver todas as dicas
+      cta_title: Registre essa economia
+      cta_text: Toda vez que você seguir esta dica, anote o valor que ficou no bolso e veja o total crescer.
+      cta_button: Registrar economia
+      public_cta_title: Guarde o valor que você não gastou
+      public_cta_text: O Poupinho anota cada gasto evitado e mostra quanto isso vira no fim do mês e do ano. É grátis e leva menos de um minuto para começar.
+      public_cta_button: Criar conta grátis
+    groups:
+      - slug: alimentacao
+        title: Alimentação
+        icon: bi-egg-fried
+        color: "#f59e0b"
+        items:
+          - slug: marmita-dois-dias-por-semana
+            icon: bi-basket
+            title: Marmita dois dias por semana
+            text: Não precisa ser todo dia. Dois almoços de casa por semana já mudam o mês, e ainda dá para variar o cardápio.
+            saving: "≈ R$ 160 por mês"
+            description: "Levar marmita dois dias por semana pode guardar cerca de R$ 160 por mês. Veja o passo a passo para começar sem virar rotina chata."
+            body:
+              - A marmita costuma fracassar quando você promete levar todo dia. Na segunda semana, o cansaço vence e a ideia morre inteira. Duas vezes por semana é uma meta que sobrevive a semanas ruins.
+              - A diferença de preço fala por si. Um almoço fora em cidade média fica na casa dos vinte reais, enquanto a porção equivalente feita em casa custa uma fração disso. O que interessa não é o valor de um dia, é o que oito almoços por mês somam.
+            steps:
+              - Escolha dois dias fixos da semana, de preferência aqueles em que você já cozinha à noite.
+              - Cozinhe uma quantidade maior no jantar da véspera e separe a porção antes de servir.
+              - Deixe os potes já prontos na geladeira, para não decidir nada de manhã.
+              - Registre no Poupinho o valor do almoço que você deixou de comprar, no mesmo dia.
+            math: Dois almoços por semana dão cerca de oito por mês. Considerando uma diferença de vinte reais entre comer fora e levar de casa, o mês fecha perto de cento e sessenta reais.
+          - slug: cafe-da-casa
+            icon: bi-cup-hot
+            title: Café da casa, não da esquina
+            text: O cafezinho de todo dia é a economia mais fácil de registrar. Leve numa garrafinha térmica e anote o valor que não gastou.
+            saving: "≈ R$ 100 por mês"
+            description: "Trocar o café comprado pelo café de casa rende cerca de R$ 100 por mês. Um hábito diário, fácil de manter e fácil de registrar."
+            body:
+              - O café comprado fora é o gasto invisível mais comum. Some pouco por vez, acontece todo dia útil e nunca aparece como um problema na fatura, porque está diluído em dezenas de lançamentos pequenos.
+              - É justamente por isso que ele é a melhor dica para começar. A troca é indolor, o resultado aparece rápido e você tem uma economia para registrar todo santo dia, o que mantém a sequência viva.
+            steps:
+              - Compre uma garrafa térmica pequena, de tamanho que caiba na mochila.
+              - Prepare o café junto com o resto do café da manhã, sem criar uma etapa nova no seu dia.
+              - Mantenha o hábito nos dias de trabalho e libere o fim de semana, para não virar privação.
+              - Anote o preço do café que você não comprou, mesmo que seja um valor pequeno.
+            math: Um café por dia útil dá cerca de vinte e dois por mês. Com uma diferença de aproximadamente cinco reais entre o café da cafeteria e o de casa, o mês fecha perto de cem reais.
+          - slug: lista-de-compras-fechada
+            icon: bi-list-check
+            title: Lista de compras fechada
+            text: Vá ao mercado com lista e sem fome. Tudo que ficou fora do carrinho e você deixou de comprar por impulso conta como economia.
+            saving: "≈ R$ 80 por compra"
+            description: "Ir ao mercado com lista fechada e sem fome corta as compras por impulso. Veja como montar a lista e o que registrar como economia."
+            body:
+              - Supermercado é um ambiente desenhado para você comprar mais do que planejou. A disposição das prateleiras, a música e as promoções de fim de corredor existem para isso. Lista fechada é a única defesa que funciona sem esforço.
+              - Fechada quer dizer que ela não aceita adições dentro da loja. Se você lembrar de algo importante, anote para a próxima compra. Na prática, quase nada do que aparece no meio do caminho era realmente necessário.
+            steps:
+              - Monte a lista em casa, olhando a geladeira e o armário antes de escrever.
+              - Coma alguma coisa antes de sair. Fome no mercado custa caro.
+              - No corredor, pegue só o que está na lista e siga em frente.
+              - Ao sair, anote o valor do que você quase colocou no carrinho e devolveu.
+            math: A estimativa vem da diferença comum entre uma compra planejada e uma compra por impulso numa ida grande ao mercado, que costuma girar em torno de oitenta reais.
+          - slug: delivery-em-dia-combinado
+            icon: bi-bag-x
+            title: Delivery só em dia combinado
+            text: Escolha um dia da semana para pedir e resista nos outros. Cada taxa de entrega e cada pedido evitado vai para o cofrinho.
+            saving: "≈ R$ 200 por mês"
+            description: "Restringir o delivery a um dia fixo da semana pode guardar cerca de R$ 200 por mês, sem cortar o prazer da comida pedida."
+            body:
+              - O problema do delivery não é o preço do prato, é a frequência. Pedir vira o padrão nos dias em que você chega cansado, e a decisão acontece antes de você perceber que está decidindo.
+              - Marcar um dia fixo resolve isso sem transformar a comida pedida em culpa. Você continua pedindo, só que uma vez por semana, com vontade, em vez de quatro vezes por inércia.
+            steps:
+              - Escolha o dia da semana em que pedir faz mais sentido para você, normalmente sexta ou sábado.
+              - Deixe algo simples e rápido pronto na geladeira para os dias em que a tentação bater.
+              - Tire os aplicativos de entrega da tela inicial do celular.
+              - Nos dias em que você resistiu, registre o valor do pedido que não aconteceu, somando a taxa de entrega.
+            math: Trocar três pedidos por semana por um só evita cerca de oito pedidos por mês. Com prato e taxa somando algo perto de vinte e cinco reais, o mês passa de duzentos reais.
+      - slug: transporte
+        title: Transporte
+        icon: bi-bus-front
+        color: "#3b82f6"
+        items:
+          - slug: trajetos-curtos-a-pe
+            icon: bi-person-walking
+            title: Trajetos curtos a pé ou de bike
+            text: Até dois quilômetros, ir a pé costuma ser quase tão rápido quanto chamar um carro. Registre o valor da corrida que não aconteceu.
+            saving: "≈ R$ 15 por trajeto"
+            description: "Em trajetos de até dois quilômetros, ir a pé ou de bicicleta custa nada e demora quase o mesmo. Veja quando a troca compensa."
+            body:
+              - Em trajeto curto dentro da cidade, o carro de aplicativo perde boa parte da vantagem. Você espera o motorista chegar, enfrenta o mesmo trânsito e ainda paga a tarifa mínima, que existe justamente para tornar a corrida curta rentável para a plataforma.
+              - Dois quilômetros a pé levam por volta de vinte e cinco minutos. Considerando a espera, a diferença real de tempo costuma ser bem menor do que parece na hora de decidir.
+            steps:
+              - Antes de chamar o carro, olhe a distância no mapa.
+              - Se for até dois quilômetros e o clima ajudar, vá a pé ou de bicicleta.
+              - Saia cinco minutos antes para não transformar a escolha em correria.
+              - Registre o valor da corrida que o aplicativo mostrou e você não pagou.
+            math: A estimativa usa a tarifa comum de uma corrida curta de aplicativo em cidade brasileira, que costuma ficar em torno de quinze reais com a taxa mínima.
+          - slug: carona-e-transporte-publico
+            icon: bi-people
+            title: Carona e transporte público
+            text: Combine carona com colegas ou use ônibus e metrô nos dias em que a pressa não manda. A diferença para o app de corrida é grande.
+            saving: "≈ R$ 120 por mês"
+            description: "Trocar o carro de aplicativo por carona ou transporte público em parte dos dias rende cerca de R$ 120 por mês."
+            body:
+              - Não se trata de abandonar o aplicativo. Se trata de reconhecer que em alguns dias você paga por pressa que não existe, só por hábito.
+              - Escolha os dias em que o horário é flexível e deixe o carro para quando ele realmente resolve um problema. A economia por dia é pequena, mas o padrão semanal é o que pesa no fim do mês.
+            steps:
+              - Identifique dois dias da semana em que você não tem compromisso logo na chegada.
+              - Combine carona com colegas que fazem o mesmo trajeto, dividindo o combustível.
+              - Nos outros dias flexíveis, use ônibus ou metrô e aproveite o tempo para ler ou ouvir algo.
+              - Registre a diferença entre o que você pagaria no aplicativo e o que gastou de fato.
+            math: Dois trajetos por semana dão cerca de oito por mês. Com uma diferença de aproximadamente quinze reais entre o aplicativo e a alternativa, o mês fecha perto de cento e vinte reais.
+          - slug: abastecer-com-comparacao
+            icon: bi-fuel-pump
+            title: Abasteça com comparação
+            text: Um app de preços de combustível e um pouco de planejamento evitam encher o tanque no posto mais caro do caminho.
+            saving: "≈ R$ 30 por tanque"
+            description: "Comparar o preço do combustível antes de abastecer evita cerca de R$ 30 por tanque. Vale quando o posto está no seu caminho."
+            body:
+              - A diferença de preço entre postos de um mesmo bairro costuma ser maior do que as pessoas imaginam. Quem abastece sempre no posto mais próximo paga essa diferença todo mês sem notar.
+              - A regra que evita autoengano é simples. Só vale trocar de posto se ele estiver na sua rota normal. Dirigir vários quilômetros para economizar alguns centavos por litro consome no combustível o que você economizou no preço.
+            steps:
+              - Instale um aplicativo de comparação de preço de combustível.
+              - Descubra o posto mais barato que já fica no seu trajeto do dia a dia.
+              - Evite abastecer no vermelho, porque a pressa tira sua liberdade de escolha.
+              - Registre a diferença entre o preço do posto habitual e o que você pagou.
+            math: A estimativa considera um tanque de quarenta litros e uma diferença de preço em torno de setenta e cinco centavos por litro entre os postos da mesma região.
+      - slug: assinaturas-e-compras
+        title: Assinaturas e compras
+        icon: bi-tv
+        color: "#8b5cf6"
+        items:
+          - slug: cancele-o-que-nao-usa
+            icon: bi-x-circle
+            title: Cancele o que você não abre
+            text: Olhe a fatura do cartão e marque cada assinatura que não usou no último mês. Cancelou? Registre o valor mensal como economia.
+            saving: "≈ R$ 40 por assinatura"
+            description: "Assinaturas esquecidas saem da conta todo mês em silêncio. Veja como fazer a auditoria da fatura e cancelar o que você não usa."
+            body:
+              - Assinatura é o gasto mais fácil de esquecer porque ele não pede sua permissão duas vezes. Você autorizou uma vez, no dia em que fazia sentido, e a cobrança continua muito depois de você ter parado de usar o serviço.
+              - A auditoria leva quinze minutos e costuma render mais que qualquer outro corte único. Faça uma vez por semestre e você raramente carrega um serviço morto por mais de alguns meses.
+            steps:
+              - Abra a fatura completa do cartão dos últimos três meses.
+              - Marque toda cobrança recorrente, inclusive as que estão em dólar.
+              - Para cada uma, pergunte se você usou nos últimos trinta dias. Se não usou, cancele agora.
+              - Registre o valor mensal de cada assinatura cancelada como economia recorrente.
+            math: A estimativa usa o preço médio de uma assinatura de streaming ou serviço digital no Brasil, que costuma ficar em torno de quarenta reais por mês.
+          - slug: regra-das-48-horas
+            icon: bi-hourglass-split
+            title: Regra das 48 horas
+            text: "Viu algo que quer comprar? Espere dois dias. Se a vontade passar, anote o preço do que você não comprou."
+            saving: Você decide o valor
+            description: "Esperar dois dias antes de comprar por impulso derruba boa parte das compras desnecessárias. Veja como aplicar a regra das 48 horas."
+            body:
+              - A compra por impulso depende de um estado emocional que não dura. A propaganda, a vitrine ou o vídeo criam uma urgência artificial, e a urgência é o único ingrediente que a espera destrói.
+              - Passadas quarenta e oito horas, a maior parte dos desejos simplesmente evapora. Os que sobrevivem costumam ser compras que valem a pena, e você as faz com muito mais tranquilidade.
+            steps:
+              - Ao querer comprar algo que não estava planejado, coloque no carrinho e feche o aplicativo.
+              - Anote o item e a data numa lista de espera.
+              - Volte depois de dois dias e decida com a cabeça fria.
+              - Se desistiu, registre o preço do item como economia.
+            math: Não há estimativa fixa aqui, porque o valor depende do que você quase comprou. Registre o preço real do item que ficou para trás.
+          - slug: conserte-antes-de-trocar
+            icon: bi-arrow-repeat
+            title: Conserte antes de trocar
+            text: Tênis, fone, celular com a tela trincada. Consertar costuma custar uma fração do novo, e a diferença é economia registrada.
+            saving: "≈ R$ 300 por item"
+            description: "Consertar costuma custar bem menos que substituir. Veja quando o reparo compensa e como registrar a diferença como economia."
+            body:
+              - A indústria treinou todo mundo a tratar conserto como coisa do passado, mas em várias categorias o reparo continua fazendo sentido. Sapato, roupa, bicicleta, eletrodoméstico e tela de celular são os casos mais claros.
+              - A regra prática é comparar o orçamento do conserto com o preço do item novo. Quando o reparo fica abaixo de metade, ele quase sempre vale, ainda mais se o produto já provou ser bom.
+            steps:
+              - Antes de comprar o substituto, peça um orçamento de conserto.
+              - Compare o orçamento com o preço real do item novo, não com o preço que você imagina.
+              - Se o conserto ficar abaixo de metade do valor do novo, conserte.
+              - Registre a diferença entre o preço do novo e o que você pagou no reparo.
+            math: A estimativa considera itens de valor médio, como um par de tênis ou a tela de um celular, em que a diferença entre trocar e consertar costuma passar de trezentos reais.
+          - slug: compare-antes-de-fechar
+            icon: bi-tag
+            title: Compare antes de fechar
+            text: Três minutos comparando preços em outra loja ou com cupom valem a pena. A diferença entre o preço que você viu e o que pagou é sua.
+            saving: "≈ 10% por compra"
+            description: "Três minutos comparando preço e cupom antes de fechar a compra costumam render cerca de 10% de desconto. Veja como fazer isso rápido."
+            body:
+              - Comparar preço deixou de ser trabalhoso. Buscar o nome exato do produto leva menos tempo do que escolher a cor, e a diferença entre a primeira loja e a mais barata costuma surpreender.
+              - Vale colocar um limite de tempo. Três minutos capturam quase toda a economia possível. Passar tarde inteira caçando o menor preço transforma a economia em prejuízo de tempo.
+            steps:
+              - Copie o nome exato do produto e busque em outros dois sites.
+              - Cheque se existe cupom ou cashback ativo para a loja escolhida.
+              - Some o frete antes de comparar, porque ele muda o resultado.
+              - Registre a diferença entre o primeiro preço que você viu e o que pagou.
+            math: A estimativa usa uma diferença de cerca de dez por cento entre a primeira oferta encontrada e a melhor oferta disponível numa compra comum pela internet.
+      - slug: habitos-e-metas
+        title: Hábitos e metas
+        icon: bi-bullseye
+        color: "#10b981"
+        items:
+          - slug: um-nao-por-dia
+            icon: bi-fire
+            title: Um "não" por dia
+            text: A sequência de dias existe para isso. Escolha um gasto pequeno para evitar todo dia e registre. O hábito vale mais que o valor.
+            saving: "≈ R$ 150 por mês"
+            description: "Evitar um gasto pequeno por dia constrói o hábito de poupar melhor que qualquer corte grande e pontual. Veja como manter a sequência."
+            body:
+              - Cortes grandes e pontuais dão uma sensação boa e não mudam nada. O que muda o seu dinheiro é a repetição, e repetição depende de que a tarefa seja pequena o bastante para caber em qualquer dia.
+              - Um gasto evitado por dia é uma meta que sobrevive a semana ruim, viagem e imprevisto. A sequência de dias existe para tornar visível essa constância, que de outro jeito passaria despercebida.
+            steps:
+              - Escolha um único gasto pequeno para evitar hoje, sem planejar a semana inteira.
+              - Registre assim que evitar, ainda com a decisão fresca na memória.
+              - Se quebrar a sequência, recomece no dia seguinte sem tentar compensar.
+              - Olhe a sequência de vez em quando. Ela é o placar do hábito, não do valor.
+            math: Um gasto evitado de cerca de cinco reais por dia soma perto de cento e cinquenta reais em um mês de trinta dias.
+          - slug: de-nome-a-sua-meta
+            icon: bi-bullseye
+            title: Dê nome à sua meta
+            text: "\"Viagem\" e \"reserva de emergência\" motivam mais que \"guardar dinheiro\". Vincule cada economia a uma meta e acompanhe a barra."
+            description: "Metas com nome e prazo motivam muito mais que a ideia genérica de guardar dinheiro. Veja como nomear a sua e acompanhar o progresso."
+            body:
+              - Guardar dinheiro sem destino é um esforço sem recompensa visível. O cérebro precisa de uma imagem concreta para justificar o incômodo de dizer não a algo agora.
+              - Nome, valor e prazo transformam a poupança num placar. Cada economia registrada empurra uma barra que você consegue ver, e ver o progresso é o que sustenta o hábito quando a novidade passa.
+            steps:
+              - Escolha algo específico, como uma viagem, um curso ou a reserva de emergência.
+              - Defina o valor total e uma data realista, mesmo que aproximada.
+              - Vincule cada economia registrada à meta correspondente.
+              - Acompanhe a barra de progresso pelo menos uma vez por semana.
+          - slug: transfira-o-que-economizou
+            icon: bi-bank
+            title: Transfira o que economizou
+            text: No fim da semana, mova para a poupança ou para uma conta separada o total que você registrou aqui. Assim a economia sai do papel.
+            description: "Registrar a economia é metade do caminho. Transferir o valor para uma conta separada toda semana é o que torna o dinheiro real."
+            body:
+              - Enquanto o dinheiro economizado continuar na conta corrente, ele vai ser gasto em outra coisa. O registro serve para você enxergar o valor, mas enxergar não protege.
+              - A transferência semanal fecha o ciclo. Ela move o valor para fora do alcance do gasto do dia a dia e transforma um número na tela em dinheiro que existe de fato.
+            steps:
+              - Escolha um dia fixo da semana, de preferência logo depois de receber.
+              - Abra o total economizado no período e transfira exatamente esse valor.
+              - Use uma conta separada da conta do dia a dia, para não misturar.
+              - Deixe o dinheiro rendendo, mesmo que numa aplicação simples com liquidez diária.
+          - slug: olhe-o-relatorio-todo-mes
+            icon: bi-bar-chart-line
+            title: Olhe o relatório todo mês
+            text: Descubra qual categoria mais rendeu e onde ainda dá para melhorar. O que é medido tende a crescer.
+            description: "Uma revisão mensal do relatório mostra qual categoria mais rendeu e onde ainda sobra espaço. Veja o que olhar em cinco minutos."
+            body:
+              - Sem revisão, você repete as mesmas escolhas por meses sem saber quais delas realmente valeram. O relatório existe para separar o que funcionou do que só pareceu funcionar.
+              - Cinco minutos por mês bastam. O objetivo não é auditar cada lançamento, é identificar a categoria campeã e a categoria esquecida, e ajustar o mês seguinte a partir disso.
+            steps:
+              - Abra o relatório no primeiro dia útil de cada mês.
+              - Veja qual categoria mais rendeu e reforce o hábito ligado a ela.
+              - Veja qual categoria ficou vazia e escolha uma dica dela para o mês novo.
+              - Compare com o mês anterior antes de definir a meta seguinte.
+
+  gamification:
+    levels:
+      "1": Iniciante
+      "2": Aprendiz
+      "3": Poupador
+      "4": Disciplinado
+      "5": Estrategista
+      "6": Mestre
+      "7": Lenda
+    level_label: "Nível %{level}"
+    points:
+      one: "%{count} ponto"
+      other: "%{count} pontos"
+    earned:
+      one: "+%{count} ponto"
+      other: "+%{count} pontos"
+    to_next: "%{count} pontos para o nível %{level}"
+    max_level: Nível máximo!
+    level_up_title: Novo nível!
+    level_up: "Você subiu para o nível %{level}: %{name}! 🎉"
+    profile:
+      title: Seu nível
+      total: "%{points} pontos no total"
+      breakdown_title: De onde vêm seus pontos
+      breakdown:
+        savings: Economias registradas
+        amount: Valor economizado
+        streaks: Marcos de sequência
+        goals: Metas atingidas
+        first_saving: Primeira economia
+      rules_title: Como ganhar pontos
+      rules:
+        - "+10 por economia registrada"
+        - "+1 a cada R$ 10 economizados (até +100 por economia)"
+        - "Sequência de dias: +15 aos 3, +50 aos 7, +100 aos 14, +200 aos 30, +400 aos 60 e +800 aos 100 dias"
+        - "+150 por meta atingida"
+        - "+20 pela primeira economia"
+      ladder_title: Níveis
+      ladder_from: "a partir de %{points} pontos"
+      current: Você está aqui
+
+  reminders:
+    title: Poupinho
+    streak: "%{name}, sua sequência de %{count} dias está em jogo. Já deu uma poupadinha hoje?"
+    messages:
+      - "Já deu uma poupadinha hoje? Um cafezinho a menos já conta. 🐷"
+      - "Deixou de gastar em alguma coisa hoje? Registre antes que esqueça."
+      - "Pequenas economias, grandes conquistas. O que ficou no seu bolso hoje?"
+      - "Seu eu do futuro agradece: registre a economia de hoje."
+      - "Hoje ainda não teve poupadinha. Vamos manter o hábito?"
+
+  admin:
+    flash:
+      forbidden: Você não tem acesso a essa área.
+    dashboard:
+      title: Painel do sistema
+      subtitle: Acompanhamento de usuários, economias e metas de todo o Poupinho
+      users_section: Usuários
+      savings_section: Economias
+      empty: Sem dados ainda.
+      latest_users: Últimos cadastros
+      latest_savings: Últimas economias registradas
+      kpi:
+        users_total: Usuários
+        admins:
+          one: "%{count} admin"
+          other: "%{count} admins"
+        users_7d: Novos em 7 dias
+        users_30d: "%{count} em 30 dias"
+        active_7d: Ativos em 7 dias
+        active_30d: "%{count} em 30 dias"
+        goals: Metas criadas
+        goals_achieved:
+          one: "%{count} atingida"
+          other: "%{count} atingidas"
+        savings_total: Total economizado
+        savings_count:
+          one: "%{count} registro"
+          other: "%{count} registros"
+        today: Hoje
+        last_7d: Últimos 7 dias
+        categories: Categorias
+        push: Lembretes ativos
+        push_hint:
+          one: "%{count} dispositivo"
+          other: "%{count} dispositivos"
+      charts:
+        signups: Cadastros por dia (30 dias)
+        savings: Economizado por dia (30 dias)
+        categories: Top categorias (30 dias)
+    users:
+      title: Usuários
+      count:
+        one: "%{count} usuário"
+        other: "%{count} usuários"
+      search: Buscar
+      search_placeholder: Nome ou e-mail
+      empty: Nenhum usuário encontrado.
+      columns:
+        user: Usuário
+        phone: Celular
+        signed_up: Cadastro
+        savings: Registros
+        total: Total
+        last_saving: Última economia
+        level: Nível
+      since: "desde %{date}"
+      no_phone: sem celular
+      no_goals: Nenhuma meta criada.
+      no_savings: Nenhuma economia registrada.
+      recent: Últimas economias
+
+  legal:
+    account_deletion:
+      title: Como excluir sua conta
+      description: "Passo a passo para apagar sua conta do Poupinho e todos os dados guardados nela."
+      intro: Você pode apagar sua conta do Poupinho a qualquer momento, sem precisar falar com ninguém. A exclusão é imediata e não tem volta.
+      steps_title: Pelo app ou pelo site
+      steps:
+        - Entre na sua conta em poupinho.com.br ou pelo app.
+        - Abra o menu do seu nome, no topo, e escolha "Meu perfil".
+        - Vá até o fim da página, na seção "Excluir conta".
+        - Digite seu e-mail para confirmar e toque em "Excluir minha conta".
+      deleted_title: O que é apagado
+      deleted:
+        - Sua conta, com nome, e-mail, telefone e foto de perfil.
+        - Todas as economias que você registrou.
+        - Suas metas e categorias.
+        - Os aparelhos cadastrados para receber lembretes.
+      retained_title: O que fica
+      retained: Nada fica guardado depois da exclusão. Não mantemos cópia dos seus dados, e registros técnicos de acesso do servidor, que não identificam você, são descartados na rotação normal dos logs.
+      contact_title: Sem acesso à conta?
+      contact_html: Se você não consegue mais entrar, escreva para %{email} do endereço cadastrado e apagamos a conta para você.
+    updated: "Última atualização: %{date}"
+    contact_html: "Dúvidas ou pedidos sobre seus dados: <a href=\"mailto:%{email}\">%{email}</a>."
+    privacy:
+      title: Política de Privacidade
+      description: Como o Poupinho coleta, usa e protege os seus dados.
+      sections:
+        - title: Quem somos
+          paragraphs:
+            - "O Poupinho (poupinho.com.br) é um aplicativo para registrar o dinheiro que você deixou de gastar e acompanhar sua evolução. Esta política explica quais dados coletamos, por que e como você pode exercer seus direitos, em linha com a Lei Geral de Proteção de Dados (LGPD)."
+        - title: Dados que coletamos
+          items:
+            - "Dados de cadastro: nome, e-mail e celular. Ao entrar com o Google, recebemos do Google seu nome, e-mail e identificador de conta; não recebemos sua senha do Google."
+            - "Dados de uso: as economias que você registra (valor, descrição, data, categoria e meta), suas metas e categorias, e as preferências do app."
+            - "Notificações: se você ativar os lembretes, guardamos a assinatura de notificação do seu navegador ou celular."
+            - "Dados técnicos: endereço IP e identificação do navegador nas sessões de login, para segurança."
+        - title: Para que usamos
+          items:
+            - "Manter sua conta e mostrar seus painéis, relatórios, metas, pontos e nível."
+            - "Enviar o lembrete diário, quando você ativar as notificações."
+            - "Entrar em contato sobre a sua conta, se necessário."
+            - "Proteger o serviço contra acessos indevidos."
+        - title: Com quem compartilhamos
+          paragraphs:
+            - "Não vendemos nem cedemos seus dados a terceiros para publicidade. Usamos provedores de infraestrutura para hospedar o serviço (servidores e rede de entrega), o Google para autenticar quem escolhe entrar com a conta Google e, se você aceitar os cookies, o Google Analytics para estatísticas de uso do site. Esses provedores tratam os dados sob nossas instruções."
+        - title: Por quanto tempo guardamos
+          paragraphs:
+            - "Enquanto sua conta existir. Você pode pedir a exclusão da conta a qualquer momento pelo e-mail de contato; apagamos seus dados em até 30 dias, salvo obrigação legal de retenção."
+        - title: Seus direitos
+          items:
+            - "Confirmar se tratamos seus dados e acessá-los."
+            - "Corrigir dados incompletos ou desatualizados (você mesmo pode fazer isso no perfil)."
+            - "Pedir a exclusão da conta e dos dados."
+            - "Desativar os lembretes quando quiser, no perfil."
+        - title: Cookies
+          paragraphs:
+            - "Usamos um cookie de sessão, necessário para manter você conectado, e o armazenamento local do navegador para preferências como o tema."
+            - "Para entender como o Poupinho é usado (páginas visitadas, origem das visitas), usamos o Google Analytics, que grava cookies de estatística apenas se você aceitar no aviso exibido na primeira visita. Se recusar, nenhum cookie de estatística é gravado. Você pode mudar a escolha limpando os dados do site no navegador. Não usamos cookies de publicidade."
+        - title: Alterações
+          paragraphs:
+            - "Podemos atualizar esta política. Mudanças relevantes serão avisadas no app. A data da última atualização aparece no topo desta página."
+    terms:
+      title: Termos de Uso
+      description: Condições para usar o Poupinho.
+      sections:
+        - title: O serviço
+          paragraphs:
+            - "O Poupinho é um aplicativo gratuito para registrar o dinheiro que você deixou de gastar e acompanhar seus hábitos de economia. Ao criar uma conta ou entrar com o Google, você concorda com estes termos e com a Política de Privacidade."
+        - title: Sua conta
+          items:
+            - "Você é responsável por manter suas credenciais em segurança e pelas atividades feitas com a sua conta."
+            - "Informe dados verdadeiros e mantenha-os atualizados."
+            - "É preciso ter pelo menos 18 anos, ou autorização de um responsável, para usar o serviço."
+        - title: Uso aceitável
+          items:
+            - "Não use o serviço para fins ilícitos, nem tente acessar contas ou dados de outras pessoas."
+            - "Não tente burlar limites, sobrecarregar ou interferir no funcionamento do serviço."
+        - title: Não é aconselhamento financeiro
+          paragraphs:
+            - "Os números, simulações, pontos e níveis do Poupinho são registros e estimativas feitos a partir do que você informa. Eles não são recomendação de investimento nem aconselhamento financeiro."
+        - title: Disponibilidade e alterações
+          paragraphs:
+            - "Fazemos o possível para manter o serviço no ar, mas ele é oferecido como está, sem garantia de disponibilidade ininterrupta. Podemos alterar, suspender ou encerrar funcionalidades, avisando quando a mudança for relevante."
+        - title: Encerramento
+          paragraphs:
+            - "Você pode encerrar sua conta a qualquer momento pelo e-mail de contato. Podemos suspender contas que violem estes termos."
+        - title: Alterações destes termos
+          paragraphs:
+            - "Podemos atualizar estes termos. A data da última atualização aparece no topo desta página."
+
+  onboarding:
+    phone:
+      step: Antes de começar
+      title: Só falta o seu celular
+      subtitle: Usamos para contato sobre a sua conta. Depois é só criar a primeira meta.
+      continue: Continuar
+
+  registrations:
+    flash:
+      created: "Bem-vindo ao Poupinho! Sua conta foi criada."
+
+  pwa:
+    offline: Você está offline. Algumas ações podem não funcionar.
+    install:
+      title: Instalar o Poupinho
+      text: Acesse direto da tela inicial, como um app.
+      button: Instalar
+      dismiss: Agora não
+
+  home:
+    nav:
+      sign_in: Entrar
+      sign_up: Criar conta grátis
+      app: Ir para o app
+      simulator: Simulador
+      how: Como funciona
+    hero:
+      # Um bloco de texto por tela do carrossel do mock (mesma ordem das abas).
+      copy:
+        - eyebrow: Registre o que você deixou de gastar
+          title: Sua economia de hoje é o seu futuro de amanhã.
+          text: O Poupinho transforma cada gasto evitado em um registro rápido, com dashboards que mostram quanto dinheiro ficou no seu bolso por dia, mês e ano.
+        - eyebrow: Metas com nome, valor e prazo
+          title: Cada real guardado tem um destino.
+          text: Crie metas como a viagem, a reserva de emergência ou o celular novo, e veja cada economia aproximar você delas.
+        - eyebrow: Relatórios por dia, mês e ano
+          title: Veja o ano inteiro em uma tela só.
+          text: Melhor mês, média por dia e comparação com o ano passado. Números que mostram o hábito virando resultado.
+        - eyebrow: Categorias do seu jeito
+          title: Descubra para onde vai o que você não gastou.
+          text: Alimentação, transporte, lazer, assinaturas… categorias suas, com o peso de cada uma no seu mês.
+      cta: Começar agora
+      cta_hint: Grátis, sem cartão, em menos de um minuto.
+      secondary: Já tenho conta
+      chips:
+        coffee: Café em casa
+        goal: Meta do mês
+        transport: Fui a pé
+      mock:
+        today: Hoje
+        month: Este mês
+        streak: dias seguidos
+        item_1: Levei marmita em vez de almoçar fora
+        item_2: Pulei o café da tarde
+        item_3: Fui de bicicleta em vez de app
+      slides:
+        dashboard: Painel
+        goals: Metas
+        report: Relatório
+        categories: Categorias
+        goals_title: Suas metas
+        goals_total: guardados nas metas
+        goal_1: Viagem dos sonhos
+        goal_2: Reserva de emergência
+        goal_3: Celular novo
+        goal_4: Presente de fim de ano
+        report_title: Economizado em %{year}
+        report_vs: vs. ano passado
+        report_best: "Melhor mês: %{month}"
+        report_best_month: Agosto
+        report_avg: por dia, em média
+        report_top: "Categoria campeã: %{category}"
+        report_days: "%{count} dias com economia"
+        categories_title: Para onde foi a economia
+        cat_1: Alimentação
+        cat_2: Transporte
+        cat_3: Lazer
+        cat_4: Assinaturas
+        categories_vs: vs. mês passado
+    quotes:
+      - Cada real que você deixa de gastar conta.
+      - Não é sobre ganhar mais. É sobre perceber quanto você já guarda.
+      - O café que você não comprou hoje vira a viagem de amanhã.
+      - Pequenas escolhas, repetidas todo dia, viram grandes resultados.
+      - Economizar não é abrir mão. É escolher o que importa.
+      - O melhor dia para começar foi ontem. O segundo melhor é hoje.
+    how:
+      title: Como funciona
+      subtitle: Três passos, alguns segundos por dia.
+      steps:
+        - title: Registre
+          text: Deixou de gastar? Anote o valor, uma descrição e a categoria. Direto do dashboard, em segundos.
+        - title: Acompanhe
+          text: Veja quanto economizou hoje, no mês e no ano, com gráficos por dia e por categoria.
+        - title: Comemore
+          text: Defina uma meta mensal, mantenha a sequência de dias e veja a bola de neve crescer.
+      demo:
+        hint: "Experimente: mude o valor e clique em salvar."
+        amount_label: Quanto você economizou?
+        description: Café em casa
+        category: Café
+        save: Salvar economia
+        saved: Registrado!
+        today: Hoje
+        month: Este mês
+        item_1: Levei marmita
+        item_2: Fui a pé
+        goal_label: Meta do mês
+        streak: dias seguidos
+        badge_streak: Sequência mantida!
+        badge_goal: Meta do mês batida!
+        reset: Fazer de novo
+    simulator:
+      title: Se você economizar %{amount} por dia…
+      subtitle: Arraste e veja quanto uma pequena economia diária vira com o tempo.
+      daily_label: Economia por dia
+      per_month_html: "≈ %{amount} por mês"
+      saved: Guardado
+      invested: "Investido a %{rate} ao mês"
+      horizons:
+        month: Em 1 mês
+        year: Em 1 ano
+        five_years: Em 5 anos
+        ten_years: Em 10 anos
+      disclaimer: Simulação ilustrativa. Considera 365 dias por ano, aportes mensais e rendimento de %{rate} ao mês, sem impostos ou inflação.
+      table:
+        title: Alguns exemplos
+        daily: Por dia
+        year: 1 ano
+        five_years: 5 anos
+        ten_years: 10 anos
+        invested_hint: "investido"
+    features:
+      title: Feito para o dia a dia
+      subtitle: Simples o bastante para usar todo dia. Completo o bastante para você não largar.
+      items:
+        - icon: bi-lightning-charge
+          title: Registro em segundos
+          text: Formulário rápido no dashboard e atalho no celular. Sem burocracia.
+        - icon: bi-graph-up-arrow
+          title: Dashboards por período
+          text: Hoje, este mês, este ano e o total desde o início, com gráficos.
+        - icon: bi-bullseye
+          title: Meta mensal
+          text: Defina quanto quer economizar e acompanhe a barra de progresso.
+        - icon: bi-fire
+          title: Sequência de dias
+          text: Mantenha o hábito e veja quantos dias seguidos você economizou.
+        - icon: bi-tags
+          title: Categorias suas
+          text: Alimentação, transporte, lazer… crie as categorias que fizerem sentido.
+        - icon: bi-phone
+          title: Instale no celular
+          text: Funciona como app, com modo escuro e aviso quando você estiver offline.
+    # Depoimentos ilustrativos (placeholders) até existirem relatos reais de usuários.
+    testimonials:
+      title: Quem já está poupando
+      subtitle: Pequenos "não" que viraram dinheiro guardado. Histórias de quem registra todo dia.
+      items:
+        - name: Mariana S.
+          role: Designer · Curitiba
+          initials: MS
+          color: "#f59e0b"
+          highlight: R$ 1.240 em 3 meses
+          text: Eu nunca soube quanto gastava com delivery até começar a anotar as vezes que cozinhei em casa. Em três meses juntei o suficiente para a passagem das férias.
+        - name: Rafael A.
+          role: Desenvolvedor · São Paulo
+          initials: RA
+          color: "#3b82f6"
+          highlight: 47 dias seguidos
+          text: A sequência de dias virou um joguinho. Registro o café que não comprei em dez segundos e vejo a barra da meta subir. Simples de um jeito que eu não largo.
+        - name: Camila R.
+          role: Professora · Belo Horizonte
+          initials: CR
+          color: "#ec4899"
+          highlight: R$ 3.980 em 1 ano
+          text: Criei uma meta chamada "reserva de emergência" e cada economia vai direto pra ela. Ver o total do ano no relatório foi a primeira vez que me senti no controle.
+        - name: João P.
+          role: Motorista de app · Recife
+          initials: JP
+          color: "#10b981"
+          highlight: R$ 620 em 2 meses
+          text: Trabalho na rua o dia todo e vivia parando pra lanchar. Agora levo marmita e anoto o que deixei de gastar entre uma corrida e outra. Instalei no celular e uso como app.
+        - name: Beatriz L.
+          role: Estudante · Porto Alegre
+          initials: BL
+          color: "#8b5cf6"
+          highlight: 1º celular pago à vista
+          text: Cancelei dois streamings que nem abria e registrei como economia mensal. Doze meses depois, comprei meu celular à vista com o que "sobrou".
+        - name: Fernando M.
+          role: Contador · Goiânia
+          initials: FM
+          color: "#0ea5e9"
+          highlight: R$ 2.150 em 6 meses
+          text: O que me convenceu foi o gráfico por categoria. Vi que "lazer" era o vilão, ajustei sem cortar tudo, e o total do mês dobrou sem eu sentir aperto.
+    cta:
+      title: Comece hoje. Seu eu do futuro agradece.
+      text: Crie sua conta gratuita e registre a primeira economia ainda hoje.
+      text_signed_in: Volte para o app e registre a economia de hoje.
+      button: Criar conta grátis
+    footer:
+      tagline: Cada real que você deixa de gastar conta.
+      sign_in: Entrar
+      sign_up: Criar conta

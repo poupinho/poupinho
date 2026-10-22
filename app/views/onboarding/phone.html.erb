@@ -1,0 +1,27 @@
+<% page_title t("onboarding.phone.title") %>
+
+<div class="ec-onboarding-head">
+  <span class="ec-onboarding-step"><i class="bi bi-stars"></i> <%= t("onboarding.phone.step") %></span>
+  <h1><%= t("onboarding.phone.title") %></h1>
+  <p><%= t("onboarding.phone.subtitle") %></p>
+</div>
+
+<%= form_with model: current_user, url: onboarding_phone_path, method: :patch, class: "ec-form ec-form-page" do |f| %>
+  <% if current_user.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0 ps-3">
+        <% current_user.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="ec-fields">
+    <label class="ec-field">
+      <span class="ec-field-label"><%= User.human_attribute_name(:phone) %></span>
+      <%= f.telephone_field :phone, value: current_user.formatted_phone, class: "form-control", required: true, autofocus: true,
+            autocomplete: "tel-national", placeholder: "(11) 91234-5678", data: { controller: "phone-mask" } %>
+    </label>
+  </div>
+  <div class="ec-form-actions">
+    <%= f.submit t("onboarding.phone.continue"), class: "btn btn-primary btn-lg w-100" %>
+  </div>
+<% end %>

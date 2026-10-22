@@ -1,0 +1,34 @@
+<aside class="ec-auth-brand">
+  <div class="ec-auth-brand-inner">
+    <div class="ec-auth-logo">
+      <i class="bi bi-piggy-bank-fill"></i>
+      <span><%= t("app.name") %></span>
+    </div>
+
+    <div class="ec-auth-pitch">
+      <h1><%= t("auth.pitch_title") %></h1>
+      <p><%= t("auth.pitch_text") %></p>
+
+      <ul class="ec-auth-features">
+        <li><i class="bi bi-lightning-charge"></i><span><%= t("auth.features.quick") %></span></li>
+        <li><i class="bi bi-graph-up-arrow"></i><span><%= t("auth.features.charts") %></span></li>
+        <li><i class="bi bi-bullseye"></i><span><%= t("auth.features.goal") %></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <%# Cena decorativa (só CSS): moedas caem em pontos diferentes do painel e o porquinho
+      corre pela base para pegar cada uma na ranhura, "engolindo" ao receber. %>
+  <div class="ec-auth-scene" aria-hidden="true">
+    <%# Ordem casa com o trajeto do porquinho: pousam aos 33% (40%), 100% (58%) e 66% (80%) do ciclo. %>
+    <% [ 40, 58, 80 ].each_with_index do |x, i| %>
+      <i class="bi bi-coin ec-auth-coin" style="--x: <%= x %>%; --delay: <%= -i * 2 %>s"></i>
+    <% end %>
+    <div class="ec-auth-piggy">
+      <div class="ec-auth-piggy-body">
+        <i class="bi bi-piggy-bank-fill"></i>
+        <span class="ec-auth-piggy-shadow"></span>
+      </div>
+    </div>
+  </div>
+</aside>

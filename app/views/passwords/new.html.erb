@@ -1,0 +1,41 @@
+<% page_title t("auth.forgot_title") %>
+
+<div class="ec-auth">
+  <%= render "shared/auth_brand" %>
+
+  <main class="ec-auth-form-wrap">
+    <div class="ec-auth-card">
+      <div class="ec-auth-logo ec-auth-logo-mobile">
+        <i class="bi bi-piggy-bank-fill"></i>
+        <span><%= t("app.name") %></span>
+      </div>
+
+      <header class="ec-auth-header">
+        <h2><%= t("auth.forgot_title") %></h2>
+        <p><%= t("auth.forgot_subtitle") %></p>
+      </header>
+
+      <%= render "shared/auth_flash" %>
+
+      <%= form_with url: passwords_path, class: "ec-auth-fields" do |form| %>
+        <div class="form-floating ec-auth-field">
+          <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username",
+                placeholder: " ", value: params[:email_address],
+                class: "form-control form-control-lg", id: "password_email_address" %>
+          <%= form.label :email_address, "E-mail", for: "password_email_address" %>
+          <i class="bi bi-envelope ec-auth-field-icon"></i>
+        </div>
+
+        <div class="ec-auth-actions">
+          <%= form.submit "Enviar instruções", class: "btn btn-primary btn-lg w-100 ec-auth-submit" %>
+        </div>
+
+        <div class="ec-auth-foot">
+          <%= link_to new_session_path, class: "ec-auth-link" do %>
+            <i class="bi bi-arrow-left"></i><span><%= t("auth.back_to_login") %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>

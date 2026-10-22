@@ -1,0 +1,10 @@
+Olá<%= @user.name.present? ? ", #{@user.first_name}" : "" %>,
+
+Recebemos uma solicitação para redefinir a senha da sua conta no Poupinho.
+Para criar uma nova senha, acesse o link abaixo:
+
+<%= edit_password_url(@user.password_reset_token) %>
+
+O link expira em <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.
+
+Se você não solicitou esta redefinição, pode ignorar este e-mail com segurança.

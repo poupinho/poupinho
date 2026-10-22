@@ -1,0 +1,23 @@
+<%# Foto de perfil: prévia (foto atual ou iniciais), escolher arquivo e remover. %>
+<div class="ec-field ec-avatar-field" data-controller="avatar-picker">
+  <span class="ec-field-label"><%= User.human_attribute_name(:avatar) %></span>
+  <div class="ec-avatar-picker">
+    <%= user_avatar(@user, css_class: "ec-avatar-lg", data: { avatar_picker_target: "preview", initials: user_initials(@user) }) %>
+    <div class="ec-avatar-picker-body">
+      <p class="ec-avatar-picker-hint"><%= t("profiles.form.avatar_hint") %></p>
+      <div class="ec-avatar-picker-actions">
+        <label class="btn btn-outline-primary btn-sm mb-0">
+          <i class="bi bi-camera"></i> <%= t("profiles.form.avatar_choose") %>
+          <%= f.file_field :avatar, accept: User::AVATAR_CONTENT_TYPES.join(","), class: "visually-hidden",
+                data: { avatar_picker_target: "input", action: "avatar-picker#preview" } %>
+        </label>
+        <% if @user.avatar.attached? %>
+          <label class="form-check form-check-inline mb-0 ec-avatar-remove">
+            <%= f.check_box :remove_avatar, { class: "form-check-input", data: { avatar_picker_target: "remove", action: "avatar-picker#toggleRemove" } }, "1", "0" %>
+            <span class="form-check-label"><%= t("profiles.form.avatar_remove") %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

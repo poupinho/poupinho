@@ -1,0 +1,65 @@
+<% page_title t("admin.users.title") %>
+
+<div class="ec-page-head">
+  <%= link_to admin_root_path, class: "ec-back", aria: { label: t("savings.show.back") } do %>
+    <i class="bi bi-arrow-left"></i>
+  <% end %>
+  <div>
+    <h1><%= t("admin.users.title") %></h1>
+    <span class="ec-page-sub"><%= t("admin.users.count", count: @count) %></span>
+  </div>
+</div>
+
+<%= form_with url: admin_users_path, method: :get, class: "ec-filters ec-filters-admin" do %>
+  <label class="ec-field">
+    <span class="ec-field-label"><%= t("admin.users.search") %></span>
+    <%= search_field_tag :q, params[:q], class: "form-control", placeholder: t("admin.users.search_placeholder") %>
+  </label>
+  <div class="ec-filters-actions">
+    <button type="submit" class="btn btn-outline-primary"><i class="bi bi-search"></i> <%= t("savings.filters.apply") %></button>
+    <% if params[:q].present? %>
+      <%= link_to admin_users_path, class: "btn btn-outline-secondary", aria: { label: t("savings.filters.clear") } do %><i class="bi bi-x-lg"></i><% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="card mt-3">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0 ec-table">
+      <thead>
+        <tr>
+          <th><%= t("admin.users.columns.user") %></th>
+          <th><%= t("admin.users.columns.phone") %></th>
+          <th><%= t("admin.users.columns.signed_up") %></th>
+          <th class="text-end"><%= t("admin.users.columns.savings") %></th>
+          <th class="text-end"><%= t("admin.users.columns.total") %></th>
+          <th><%= t("admin.users.columns.last_saving") %></th>
+          <th><%= t("admin.users.columns.level") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @users.empty? %>
+          <tr><td colspan="7" class="text-muted text-center py-4"><%= t("admin.users.empty") %></td></tr>
+        <% end %>
+        <% @users.each do |user| %>
+          <% score = @scores[user] %>
+          <tr>
+            <td>
+              <%= link_to admin_user_path(user), class: "text-reset text-decoration-none fw-semibold" do %>
+                <%= user.display_name %><% if user.admin? %> <span class="badge text-bg-secondary">admin</span><% end %>
+              <% end %>
+              <div class="small text-muted"><%= user.email_address %></div>
+            </td>
+            <td><%= user.formatted_phone || "—" %></td>
+            <td><%= l(user.created_at.to_date) %></td>
+            <td class="text-end"><%= user.savings_count %></td>
+            <td class="text-end text-success fw-semibold"><%= format_brl(user.savings_total.to_d) %></td>
+            <td><%= user.last_saved_on ? relative_date(user.last_saved_on) : "—" %></td>
+            <td><span class="badge text-bg-light border"><%= t("gamification.level_label", level: score.level) %> · <%= score.level_name %></span></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="mt-3 d-flex justify-content-center"><%= paginate @users %></div>

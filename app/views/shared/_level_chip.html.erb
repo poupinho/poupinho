@@ -1,0 +1,18 @@
+<%# Chip compacto de nível (dashboard): nível, nome, barra e pontos para o próximo. Leva ao perfil. %>
+<%= link_to edit_profile_path, class: "ec-level-chip", title: t("gamification.profile.title") do %>
+  <span class="ec-level-chip-head">
+    <i class="bi bi-stars"></i>
+    <span><%= t("gamification.level_label", level: score.level) %> · <%= score.level_name %></span>
+    <small><%= t("gamification.points", count: score.points) %></small>
+  </span>
+  <span class="ec-level-bar" role="progressbar" aria-valuenow="<%= score.progress_pct %>" aria-valuemin="0" aria-valuemax="100">
+    <span style="width: <%= score.progress_pct %>%"></span>
+  </span>
+  <span class="ec-level-chip-hint">
+    <% if score.max_level? %>
+      <%= t("gamification.max_level") %>
+    <% else %>
+      <%= t("gamification.to_next", count: score.points_to_next, level: score.level + 1) %>
+    <% end %>
+  </span>
+<% end %>

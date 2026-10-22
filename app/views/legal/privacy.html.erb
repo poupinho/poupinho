@@ -1,0 +1,18 @@
+<% page_title t("legal.privacy.title") %>
+<% page_description t("legal.privacy.description") %>
+<%= render "legal/layout_head" %>
+  <main class="ec-legal-body">
+    <h1><%= t("legal.privacy.title") %></h1>
+    <p class="ec-legal-updated"><%= t("legal.updated", date: l(Date.new(2026, 9, 5), format: :long)) %></p>
+    <% t("legal.privacy.sections").each do |section| %>
+      <section>
+        <h2><%= section[:title] %></h2>
+        <% Array(section[:paragraphs]).each do |p| %><p><%= p %></p><% end %>
+        <% if section[:items] %>
+          <ul><% section[:items].each do |item| %><li><%= item %></li><% end %></ul>
+        <% end %>
+      </section>
+    <% end %>
+    <p class="ec-legal-contact"><%= t("legal.contact_html", email: "rafaelbmateus.dev@gmail.com") %></p>
+  </main>
+</div>
