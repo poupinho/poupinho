@@ -2,6 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 // Mostra um banner "Instalar app" quando o navegador dispara beforeinstallprompt.
 // Esconde se o app já roda instalado (standalone) ou se o usuário dispensou nos últimos 14 dias.
+// Os dois banners ocupam o mesmo lugar: enquanto o aviso de cookies estiver na tela, este
+// espera, e aparece depois da escolha (eventos do controller cookie-consent).
 const DISMISS_KEY = "economiza-install-dismissed-at"
 const DISMISS_DAYS = 14
 
@@ -13,16 +15,31 @@ export default class extends Controller {
     this._onPrompt = (event) => {
       event.preventDefault()
       this.prompt = event
-      if (!this.dismissedRecently() && !this.standalone()) this.show()
+      this.maybeShow()
     }
     this._onInstalled = () => this.hide()
+    this._onCookieShown = () => this.hide()
+    this._onCookieDecided = () => this.maybeShow()
     window.addEventListener("beforeinstallprompt", this._onPrompt)
     window.addEventListener("appinstalled", this._onInstalled)
+    window.addEventListener("cookie-consent:shown", this._onCookieShown)
+    window.addEventListener("cookie-consent:decided", this._onCookieDecided)
   }
 
   disconnect() {
     window.removeEventListener("beforeinstallprompt", this._onPrompt)
     window.removeEventListener("appinstalled", this._onInstalled)
+    window.removeEventListener("cookie-consent:shown", this._onCookieShown)
+    window.removeEventListener("cookie-consent:decided", this._onCookieDecided)
+  }
+
+  maybeShow() {
+    if (!this.prompt || this.dismissedRecently() || this.standalone() || this.cookiePending()) return
+    this.show()
+  }
+
+  cookiePending() {
+    return document.querySelector(".ec-cookie-banner:not([hidden])") !== null
   }
 
   async install() {

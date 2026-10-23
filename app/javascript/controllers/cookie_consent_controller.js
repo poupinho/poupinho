@@ -3,6 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 // Banner de cookies do Google Analytics (Consent Mode). Mostra o aviso enquanto não há
 // escolha guardada em localStorage ("economiza-cookies": granted | denied); ao aceitar,
 // libera analytics_storage no gtag. O padrão negado é definido em layouts/_analytics.
+// Avisa na window ("cookie-consent:shown" / "cookie-consent:decided") para o banner de
+// instalar (pwa-install) não aparecer por cima deste.
 const KEY = "economiza-cookies"
 
 export default class extends Controller {
@@ -10,6 +12,7 @@ export default class extends Controller {
     if (this.stored()) return
     this.element.hidden = false
     requestAnimationFrame(() => this.element.classList.add("show"))
+    this.dispatch("shown", { target: window })
   }
 
   accept() {
@@ -26,6 +29,7 @@ export default class extends Controller {
   hide() {
     this.element.classList.remove("show")
     this.element.hidden = true
+    this.dispatch("decided", { target: window })
   }
 
   remember(choice) {
