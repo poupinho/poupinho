@@ -1,3 +1,6 @@
+# Nome fixo do projeto: containers e volumes (economiza_pg_data) não dependem do nome da pasta.
+name: economiza
+
 services:
   db:
     image: postgres:16-alpine
