@@ -19,7 +19,7 @@ gem "stimulus-rails"
 gem "bcrypt", "~> 3.1.7"
 
 # Pagination [https://github.com/kaminari/kaminari]
-gem "kaminari", "~> 1.2"
+gem "kaminari", "~> 1.3"
 
 # Charts in views [https://github.com/ankane/chartkick]
 gem "chartkick", "~> 5.1"
