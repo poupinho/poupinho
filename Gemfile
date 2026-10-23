@@ -38,7 +38,7 @@ gem "web-push", "~> 3.0"
 
 # Login com Google (OAuth 2) [https://github.com/zquestz/omniauth-google-oauth2]
 gem "omniauth-google-oauth2", "~> 1.2"
-gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "solid_cable"
 
 # Reduces boot times through caching; required in config/boot.rb
