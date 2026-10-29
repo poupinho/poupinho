@@ -22,7 +22,7 @@ gem "bcrypt", "~> 3.1.7"
 gem "kaminari", "~> 1.2"
 
 # Charts in views [https://github.com/ankane/chartkick]
-gem "chartkick", "~> 5.1"
+gem "chartkick", "~> 5.3"
 # Group by date helper used by chartkick [https://github.com/ankane/groupdate]
 gem "groupdate", "~> 6.4"
 
